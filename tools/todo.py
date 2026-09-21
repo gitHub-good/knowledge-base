@@ -239,7 +239,10 @@ def cmd_convert(args) -> None:
         die(f"{path.name} 已是终态（{d['fields'].get('status')}），不能转需求")
     r = subprocess.run(
         [sys.executable, str(ROOT / "tools" / "req.py"), "new", title_of(path),
-         "--from", args.code, "-p", args.priority, "--print-code"],
+         "--from", args.code, "-p", args.priority, "--print-code"]
+        + (["-d", re.search(r"^> (.+)$", d["body"], re.M).group(1).strip()]
+           if re.search(r"^> (.+)$", d["body"], re.M) else [])
+        + [i for item in re.findall(r"^- \[[ x]\] (.+)$", d["body"], re.M) for i in ("--gwt", item)],
         capture_output=True, text=True, encoding="utf-8")
     if r.returncode != 0:
         die(f"req.py 建需求失败：{(r.stdout + r.stderr).strip()}")

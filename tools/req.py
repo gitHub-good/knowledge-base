@@ -5,6 +5,7 @@
 用法（仓库根或任意子目录）：
     python tools/req.py                              # 校验 + 统计
     python tools/req.py new "标题" [-t 类型] [-p 优先级] [--from TB-YYYYMMDD-NN]
+                                [-d 一句话说明] [--gwt 验收标准]...   # --gwt 可重复传多条
     python tools/req.py start REQ-YYYYMMDD-NN        # 待评审 → 开发中
     python tools/req.py done  REQ-YYYYMMDD-NN        # → 已关闭（自动写完成日期+进展+刷新汇总）
     python tools/req.py reject REQ-YYYYMMDD-NN [原因] # → 已拒绝（留档）
@@ -158,11 +159,14 @@ def cmd_new(args) -> str:
     path = REQ_DIR / f"{prefix}{seq:02d}-{title}.md"
     source = args.from_ or "原始诉求"
     origin_note = f"（来源：{args.from_}）" if args.from_ else ""
+    desc = (args.desc or "一句话说明").strip()
+    gwt = [i.strip() for i in (args.gwt or []) if i.strip()]
+    gwt_lines = "\n".join(f"- [ ] {i}" for i in gwt) or "- [ ] Given <前置条件> When <操作> Then <期望结果>"
     body = (
         f"# 📥 {args.title.strip()}\n\n"
-        f"> 一句话说明\n\n"
+        f"> {desc}\n\n"
         f"## 📋 验收标准（Given/When/Then）\n\n"
-        f"- [ ] Given <前置条件> When <操作> Then <期望结果>\n\n"
+        f"{gwt_lines}\n\n"
         f"## 📝 进展记录\n\n"
         f"- {today.isoformat()} 创建{origin_note}。\n"
     )
@@ -218,6 +222,10 @@ def validate() -> int:
             problems.append(f"{p.name}: 未关闭却带完成日期")
         if "## 📋 验收标准" not in d["body"]:
             problems.append(f"{p.name}: 缺验收标准节")
+        if re.search(r"^> 一句话说明$", d["body"], re.M):
+            problems.append(f"{p.name}: 一句话说明未填写（new -d 或手工补）")
+        if re.search(r"^- \[ \] Given <前置条件> When <操作> Then <期望结果>$", d["body"], re.M):
+            problems.append(f"{p.name}: 验收标准未填写（new --gwt 或手工补）")
     if not POOL.is_file():
         problems.append(f"缺 {POOL}")
     elif BEGIN not in POOL.read_text(encoding="utf-8"):
@@ -242,6 +250,9 @@ def main() -> int:
     p_new.add_argument("-t", "--type", default="优化", help="类型：功能/优化/缺陷/技术")
     p_new.add_argument("-p", "--priority", default="应该", help="优先级（MoSCoW）：必须/应该/可以/暂不")
     p_new.add_argument("--from", dest="from_", default="", help="来源编号，如 TB-20260918-01")
+    p_new.add_argument("-d", "--desc", help="一句话说明（缺省留占位符，校验会提示未填）")
+    p_new.add_argument("--gwt", action="append", metavar="标准",
+                       help="验收标准一条（Given/When/Then），可重复传入；缺省留占位符")
     p_new.add_argument("--print-code", action="store_true", help="只打印新编号（供 todo.py convert 调用）")
     p_start = sub.add_parser("start", help="待评审 → 开发中")
     p_start.add_argument("code", help="编号，如 REQ-20260918-01")

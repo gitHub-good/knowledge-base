@@ -22,7 +22,7 @@
 | `python tools/todo.py start TB-YYYYMMDD-NN` | 待办 → 进行中，追加进展记录 |
 | `python tools/todo.py done TB-YYYYMMDD-NN` | → 已完成：自动写完成日期、追加进展记录、刷新汇总 |
 | `python tools/todo.py cancel TB-YYYYMMDD-NN [原因]` | → 已取消（留档，不删除） |
-| `python tools/todo.py convert TB-YYYYMMDD-NN [-p MoSCoW优先级]` | 转需求：自动在 [需求池](/project-development/01-requirements/backlog.md) 建 REQ 条目（来源=待办编号），待办关闭并回写 REQ 编号 |
+| `python tools/todo.py convert TB-YYYYMMDD-NN [-p MoSCoW优先级]` | 转需求：自动在 [需求池](/project-development/01-requirements/backlog.md) 建 REQ 条目并**继承待办的描述与完成标准**，待办关闭并回写 REQ 编号 |
 | `python tools/todo.py sync` | 重新生成本页汇总区块（勿手改） |
 | `python tools/todo.py`（无参数） | 校验全部待办文件（状态合法、字段齐全、一句话说明与完成标准已填、汇总未失同步），有问题退出码 1 |
 
@@ -55,16 +55,14 @@ status: 待办
 <!-- todos:begin -->
 > 由 `python tools/todo.py sync` 自动生成，手改会被覆盖。
 
-**统计**：待办 3 ｜ 进行中 1 ｜ 已完成 13 ｜ 已取消 0（共 17）
+**统计**：待办 1 ｜ 进行中 1 ｜ 已完成 15 ｜ 已取消 0（共 17）
 
 **未完成**（按创建日期，早的在前）：
 
 | 编号 | 标题 | 优先级 | 状态 | 创建日期 | 期限 |
 | --- | --- | --- | --- | --- | --- |
 | [TB-20260921-06](/project-development/06-todos/todo/pending/TB-20260921-06-setup-private-remote-and-push.md) | setup-private-remote-and-push | 高 | 待办 | 2026-09-21 |  |
-| [TB-20260921-12](/project-development/06-todos/todo/doing/TB-20260921-12-index-trees-sync-missing-files.md) | index-trees-sync-missing-files | 低 | 进行中 | 2026-09-21 |  |
-| [TB-20260921-13](/project-development/06-todos/todo/pending/TB-20260921-13-activate-convert-feedback-loop.md) | activate-convert-feedback-loop | 低 | 待办 | 2026-09-21 |  |
-| [TB-20260921-15](/project-development/06-todos/todo/pending/TB-20260921-15-req-new-fill-desc-and-gwt.md) | req-new-fill-desc-and-gwt | 低 | 待办 | 2026-09-21 |  |
+| [TB-20260921-13](/project-development/06-todos/todo/doing/TB-20260921-13-activate-convert-feedback-loop.md) | activate-convert-feedback-loop | 低 | 进行中 | 2026-09-21 |  |
 
 **最近完成**（最新 5 条）：
 
@@ -72,7 +70,7 @@ status: 待办
 | --- | --- | --- |
 | [TB-20260921-17](/project-development/06-todos/todo/done/TB-20260921-17-todo-items-status-subdirs.md) | todo-items-status-subdirs | 2026-09-21 |
 | [TB-20260921-16](/project-development/06-todos/todo/done/TB-20260921-16-todo-items-move-to-subdir.md) | todo-items-move-to-subdir | 2026-09-21 |
+| [TB-20260921-15](/project-development/06-todos/todo/done/TB-20260921-15-req-new-fill-desc-and-gwt.md) | req-new-fill-desc-and-gwt | 2026-09-21 |
 | [TB-20260921-14](/project-development/06-todos/todo/done/TB-20260921-14-todo-new-fill-desc-and-dod.md) | todo-new-fill-desc-and-dod | 2026-09-21 |
-| [TB-20260921-11](/project-development/06-todos/todo/done/TB-20260921-11-todo-skeleton-add-deadline-field.md) | todo-skeleton-add-deadline-field | 2026-09-21 |
-| [TB-20260921-10](/project-development/06-todos/todo/done/TB-20260921-10-loader-sync-consistency-check.md) | loader-sync-consistency-check | 2026-09-21 |
+| [TB-20260921-12](/project-development/06-todos/todo/done/TB-20260921-12-index-trees-sync-missing-files.md) | index-trees-sync-missing-files | 2026-09-21 |
 <!-- todos:end -->
