@@ -35,7 +35,9 @@
     └── lessons-learned/         # 踩坑记录（持续追加）
 └── tools/
     ├── check_links.py        # 链接与锚点校验：python tools/check_links.py
-    └── todo.py               # 待办项流转：python tools/todo.py
+    ├── req.py                # 需求池流转：python tools/req.py
+    ├── todo.py               # 待办项流转：python tools/todo.py
+    └── test_tools.py         # 工具自测（提交门禁/CI 同款）：python tools/test_tools.py
 ```
 
 ## 🚀 快速入口

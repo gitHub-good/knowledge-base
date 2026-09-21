@@ -55,15 +55,14 @@ status: 待办
 <!-- todos:begin -->
 > 由 `python tools/todo.py sync` 自动生成，手改会被覆盖。
 
-**统计**：待办 4 ｜ 进行中 1 ｜ 已完成 12 ｜ 已取消 0（共 17）
+**统计**：待办 3 ｜ 进行中 1 ｜ 已完成 13 ｜ 已取消 0（共 17）
 
 **未完成**（按创建日期，早的在前）：
 
 | 编号 | 标题 | 优先级 | 状态 | 创建日期 | 期限 |
 | --- | --- | --- | --- | --- | --- |
 | [TB-20260921-06](/project-development/06-todos/todo/pending/TB-20260921-06-setup-private-remote-and-push.md) | setup-private-remote-and-push | 高 | 待办 | 2026-09-21 |  |
-| [TB-20260921-11](/project-development/06-todos/todo/doing/TB-20260921-11-todo-skeleton-add-deadline-field.md) | todo-skeleton-add-deadline-field | 低 | 进行中 | 2026-09-21 |  |
-| [TB-20260921-12](/project-development/06-todos/todo/pending/TB-20260921-12-index-trees-sync-missing-files.md) | index-trees-sync-missing-files | 低 | 待办 | 2026-09-21 |  |
+| [TB-20260921-12](/project-development/06-todos/todo/doing/TB-20260921-12-index-trees-sync-missing-files.md) | index-trees-sync-missing-files | 低 | 进行中 | 2026-09-21 |  |
 | [TB-20260921-13](/project-development/06-todos/todo/pending/TB-20260921-13-activate-convert-feedback-loop.md) | activate-convert-feedback-loop | 低 | 待办 | 2026-09-21 |  |
 | [TB-20260921-15](/project-development/06-todos/todo/pending/TB-20260921-15-req-new-fill-desc-and-gwt.md) | req-new-fill-desc-and-gwt | 低 | 待办 | 2026-09-21 |  |
 
@@ -74,6 +73,6 @@ status: 待办
 | [TB-20260921-17](/project-development/06-todos/todo/done/TB-20260921-17-todo-items-status-subdirs.md) | todo-items-status-subdirs | 2026-09-21 |
 | [TB-20260921-16](/project-development/06-todos/todo/done/TB-20260921-16-todo-items-move-to-subdir.md) | todo-items-move-to-subdir | 2026-09-21 |
 | [TB-20260921-14](/project-development/06-todos/todo/done/TB-20260921-14-todo-new-fill-desc-and-dod.md) | todo-new-fill-desc-and-dod | 2026-09-21 |
+| [TB-20260921-11](/project-development/06-todos/todo/done/TB-20260921-11-todo-skeleton-add-deadline-field.md) | todo-skeleton-add-deadline-field | 2026-09-21 |
 | [TB-20260921-10](/project-development/06-todos/todo/done/TB-20260921-10-loader-sync-consistency-check.md) | loader-sync-consistency-check | 2026-09-21 |
-| [TB-20260921-09](/project-development/06-todos/todo/done/TB-20260921-09-tools-tests-and-ci.md) | tools-tests-and-ci | 2026-09-21 |
 <!-- todos:end -->

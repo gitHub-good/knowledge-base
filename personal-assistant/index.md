@@ -25,6 +25,7 @@ personal-assistant/
 │   ├── index.md              # 模板索引：复制即用
 │   ├── weekly-report.md
 │   ├── meeting-minutes.md
+│   ├── new-machine-setup.md      # 新电脑环境清单（换机恢复流程）
 │   └── technical-design.md       # 与 project-development/02-design 检查单对应
 ├── 📏 standards/
 │   ├── index.md              # 规范索引：管"怎么做文件"
