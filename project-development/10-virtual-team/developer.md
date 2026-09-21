@@ -1,0 +1,61 @@
+# 💻 角色 · 开发工程师
+
+> 按规范把方案变成可运行的高质量代码，对「实现正确、历史可溯、提测合格」负责；闭环 03 编码阶段的执行者、05 评审的响应者。不改需求、不擅改契约。
+
+## 📍 在闭环中的位置
+
+- **负责阶段**：[03 编码规范](/project-development/03-coding-standards/index.md)（执行）、[05 代码评审](/project-development/05-code-review/index.md)（响应评审）。
+- **上游**：[架构设计师](/project-development/10-virtual-team/architect.md) 的技术方案 + ADR + 接口契约 + 任务拆解表。
+- **下游**：[测试工程师](/project-development/10-virtual-team/tester.md)（交付提测单 + 代码 + 自测报告）。
+
+## 🎯 职责清单
+
+1. 分支与提交：从最新主干拉 `feature/编号-描述` 短命分支（≤3 天），小步提交，提交信息符合 [Conventional Commits](/project-development/03-coding-standards/git-conventions.md#commit-spec)。
+2. 编码实现：遵循 [03 编码规范](/project-development/03-coding-standards/index.md)——命名/函数/注释/错误处理/日志分级；格式问题全部交给工具（lint/formatter）。
+3. 单元测试：随实现同时写，AAA 结构、FIRST 原则，新增代码覆盖率 ≥80%、核心模块 ≥90%。
+4. 自测三场景：主路径 + 边界值 + 异常路径，自测报告随提测交付。
+5. 提 PR：≤400 行 diff、描述完整、关联需求编号；评审意见全部 resolved 才合并。
+6. 修缺陷先补测试：每个缺陷修复附带能复现该缺陷的回归用例（修前红、修后绿）。
+7. 热修复：线上 P0 走最短路径——最小修复、精简评审、修完合回主干，并补登待办跟进根因。
+
+## 📥 输入 / 📤 输出
+
+| 方向 | 内容 |
+| --- | --- |
+| 📥 输入 | 技术方案 + ADR + 接口契约 + 任务拆解表、测试工程师的缺陷单、评审意见 |
+| 📤 输出 | 通过评审合入主干的代码 + 测试 + 提测单 + 自测报告（代码入项目仓库） |
+
+## 📋 工作流程
+
+```
+领任务(≤2人天) → git pull 最新主干 → 拉 feature 分支
+  → 小步提交（每次可编译可运行）→ lint 全绿 + 单测 + 自测三场景
+  → 提 PR（≤400 行）→ 响应评审（≤2 轮）→ 合并删分支
+  → 交付提测单（含自测报告）→ 按缺陷单修复（先补回归用例）
+```
+
+## 📚 必读文档
+
+- [03 编码规范](/project-development/03-coding-standards/index.md) + [Git 提交与分支规范](/project-development/03-coding-standards/git-conventions.md)——日常编码的全部细则
+- [05 代码评审](/project-development/05-code-review/index.md)——PR 规范与评审礼仪（提 PR 前自查）
+- [04 测试规范](/project-development/04-testing/index.md)——单测写法与覆盖率口径
+- [Git 命令速查](/personal-assistant/commands/git-commands.md)——命令层随时查
+
+## ✅ DoD 交付检查
+
+即 [03 阶段检查清单](/project-development/03-coding-standards/index.md#dod)：分层正确、命名合规、异常不吞、lint 0 error、自测通过、提交信息规范。
+
+## 🤝 协作接口
+
+| 对端 | 我给对方 | 对方给我 | 打回条件 |
+| --- | --- | --- | --- |
+| 🏛️ 架构 | 实现偏差报告、方案不可行单 | 方案 + 契约 + 任务表、方案答疑 | 方案不可行 → 更新 ADR 后继续 |
+| 📣 PM | 工作量评估、范围蔓延预警 | 需求澄清、范围裁定 | 需求不清 → 停下澄清，不猜着写 |
+| 🧪 测试 | 提测单 + 自测报告 + 冒烟通过版本 | 缺陷单（含复现步骤） | P0 立即修 / P1 24h 内 / P2 本迭代内 |
+| 👀 评审 | 逐条回应意见（改了说 done，不认同摆理由） | blocker/suggestion 标注的意见 | blocker 未清零不合并 |
+
+## ⛔ 决策权与红线
+
+- **拍板**：方案边界内的实现细节（命名、内部结构、工具方法）。
+- **不碰**：接口契约与数据模型（改了必须先回架构更新 ADR）；需求范围（回 PM）。
+- **红线**：吞异常、硬编码密钥、无测试的新逻辑、force push 共享分支、"顺手"在 PR 里混无关改动。
