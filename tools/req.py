@@ -41,7 +41,9 @@ def die(msg: str) -> None:
 
 
 def sanitize(title: str) -> str:
-    return re.sub(r"[\s/\\:*?\"<>|]+", "-", title.strip()).strip("-")
+    # 白名单清洗：仅保留中英文、数字、连字符；其余字符折叠为单个连字符（与 todo.py 同款，防 ~() 等破坏文件名与链接）
+    s = re.sub(r"[^0-9A-Za-z\u4e00-\u9fff-]+", "-", title.strip())
+    return re.sub(r"-{2,}", "-", s).strip("-")
 
 
 def reqs() -> list:

@@ -55,14 +55,14 @@ status: 待办
 <!-- todos:begin -->
 > 由 `python tools/todo.py sync` 自动生成，手改会被覆盖。
 
-**统计**：待办 9 ｜ 进行中 0 ｜ 已完成 8 ｜ 已取消 0（共 17）
+**统计**：待办 8 ｜ 进行中 1 ｜ 已完成 8 ｜ 已取消 0（共 17）
 
 **未完成**（按创建日期，早的在前）：
 
 | 编号 | 标题 | 优先级 | 状态 | 创建日期 |
 | --- | --- | --- | --- | --- |
 | [TB-20260921-06](/project-development/06-todos/todo/pending/TB-20260921-06-setup-private-remote-and-push.md) | setup-private-remote-and-push | 高 | 待办 | 2026-09-21 |
-| [TB-20260921-07](/project-development/06-todos/todo/pending/TB-20260921-07-harden-todo-req-filename-sanitize.md) | harden-todo-req-filename-sanitize | 中 | 待办 | 2026-09-21 |
+| [TB-20260921-07](/project-development/06-todos/todo/doing/TB-20260921-07-harden-todo-req-filename-sanitize.md) | harden-todo-req-filename-sanitize | 中 | 进行中 | 2026-09-21 |
 | [TB-20260921-08](/project-development/06-todos/todo/pending/TB-20260921-08-check-links-enforce-conventions.md) | check-links-enforce-conventions | 中 | 待办 | 2026-09-21 |
 | [TB-20260921-09](/project-development/06-todos/todo/pending/TB-20260921-09-tools-tests-and-ci.md) | tools-tests-and-ci | 中 | 待办 | 2026-09-21 |
 | [TB-20260921-10](/project-development/06-todos/todo/pending/TB-20260921-10-loader-sync-consistency-check.md) | loader-sync-consistency-check | 中 | 待办 | 2026-09-21 |
