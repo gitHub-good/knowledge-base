@@ -14,7 +14,7 @@
                                                     #   待办关闭并回写 REQ 编号（调用 tools/req.py）
     python tools/todo.py sync                       # 重新生成 06-todos/index.md 汇总区块
 
-文件：project-development/06-todos/TB-YYYYMMDD-NN-标题.md；汇总区块在 index.md 的
+文件：project-development/06-todos/todo/TB-YYYYMMDD-NN-标题.md（06-todos 下的 todo/ 子目录）；汇总区块在 06-todos/index.md 的
 <!-- todos:begin/end --> 标记之间。退出码：有问题 = 1，全过 = 0。
 """
 import argparse
@@ -30,8 +30,8 @@ except Exception:
     pass
 
 ROOT = Path(__file__).resolve().parent.parent
-TODO_DIR = ROOT / "project-development" / "06-todos"
-INDEX = TODO_DIR / "index.md"
+TODO_DIR = ROOT / "project-development" / "06-todos" / "todo"  # 待办单文件目录；汇总所在的 index.md 在其上一级
+INDEX = TODO_DIR.parent / "index.md"
 BEGIN, END = "<!-- todos:begin -->", "<!-- todos:end -->"
 STATUSES = ("待办", "进行中", "已完成", "已取消")
 PRIORITIES = ("高", "中", "低")
@@ -109,6 +109,7 @@ def build_block() -> str:
         m = FILE_RE.match(p.name)
         items.append({
             "path": p, "title": title_of(p), "code": f"TB-{m.group(1)}-{m.group(2)}",
+            "link": "/" + p.relative_to(ROOT).as_posix(),  # 汇总链接用仓库根相对路径（编辑规范第 17 条）
             "status": f.get("status", ""), "priority": f.get("优先级", ""),
             "created": f.get("创建日期", ""), "finished": f.get("完成日期", ""),
         })
@@ -124,14 +125,14 @@ def build_block() -> str:
         lines += ["", "**未完成**（按创建日期，早的在前）：", "",
                   "| 编号 | 标题 | 优先级 | 状态 | 创建日期 |", "| --- | --- | --- | --- | --- |"]
         for i in pending:
-            lines.append(f"| [{i['code']}]({i['path'].name}) | {i['title']} | {i['priority']} | {i['status']} | {i['created']} |")
+            lines.append(f"| [{i['code']}]({i['link']}) | {i['title']} | {i['priority']} | {i['status']} | {i['created']} |")
     done = sorted((i for i in items if i["status"] == "已完成"),
                   key=lambda i: (i["finished"], i["path"].name), reverse=True)[:5]
     if done:
         lines += ["", "**最近完成**（最新 5 条）：", "",
                   "| 编号 | 标题 | 完成日期 |", "| --- | --- | --- |"]
         for i in done:
-            lines.append(f"| [{i['code']}]({i['path'].name}) | {i['title']} | {i['finished']} |")
+            lines.append(f"| [{i['code']}]({i['link']}) | {i['title']} | {i['finished']} |")
     return "\n".join(lines) + "\n"
 
 
@@ -253,6 +254,9 @@ def validate() -> int:
             problems.append(f"{p.name}: 一句话说明未填写（new -d 或手工补）")
         if re.search(r"^- \[ \] 达到什么程度算完成$", d["body"], re.M):
             problems.append(f"{p.name}: 完成标准未填写（new --dod 或手工补）")
+    stray = [p.name for p in TODO_DIR.parent.iterdir() if p.is_file() and FILE_RE.match(p.name)]
+    if stray:
+        problems.append(f"06-todos 根目录有待办未移入 todo/ 子目录：{'、'.join(stray)}")
     if BEGIN not in INDEX.read_text(encoding="utf-8"):
         problems.append("index.md 缺汇总区块标记")
     elif build_block().rstrip("\n") not in INDEX.read_text(encoding="utf-8"):

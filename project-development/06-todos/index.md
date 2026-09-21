@@ -8,7 +8,7 @@
 
 ## 📐 约定
 
-1. **单文件单待办**：命名 `TB-YYYYMMDD-NN-标题.md`（NN 为当日序号 01~99）；编号即唯一 ID，可全局搜索。
+1. **单文件单待办**：命名 `TB-YYYYMMDD-NN-标题.md`（NN 为当日序号 01~99），统一存放在本目录 `todo/` 子目录（校验会把遗留在根目录的待办计为问题）；编号即唯一 ID，可全局搜索。
 2. **状态机**：`待办 → 进行中 → 已完成 / 已取消`，状态存于文件头 `status` 字段，四个合法值。
 3. **必填字段**（文件头）：`status` / `优先级`（高、中、低）/ `创建日期`；`完成日期` 在完成时自动写入。
 4. **必须有完成标准**（正文 DoD 节）——说不清"什么算完成"的事不登记。
@@ -55,29 +55,29 @@ status: 待办
 <!-- todos:begin -->
 > 由 `python tools/todo.py sync` 自动生成，手改会被覆盖。
 
-**统计**：待办 9 ｜ 进行中 0 ｜ 已完成 6 ｜ 已取消 0（共 15）
+**统计**：待办 9 ｜ 进行中 0 ｜ 已完成 7 ｜ 已取消 0（共 16）
 
 **未完成**（按创建日期，早的在前）：
 
 | 编号 | 标题 | 优先级 | 状态 | 创建日期 |
 | --- | --- | --- | --- | --- |
-| [TB-20260921-06](TB-20260921-06-setup-private-remote-and-push.md) | setup-private-remote-and-push | 高 | 待办 | 2026-09-21 |
-| [TB-20260921-07](TB-20260921-07-harden-todo-req-filename-sanitize.md) | harden-todo-req-filename-sanitize | 中 | 待办 | 2026-09-21 |
-| [TB-20260921-08](TB-20260921-08-check-links-enforce-conventions.md) | check-links-enforce-conventions | 中 | 待办 | 2026-09-21 |
-| [TB-20260921-09](TB-20260921-09-tools-tests-and-ci.md) | tools-tests-and-ci | 中 | 待办 | 2026-09-21 |
-| [TB-20260921-10](TB-20260921-10-loader-sync-consistency-check.md) | loader-sync-consistency-check | 中 | 待办 | 2026-09-21 |
-| [TB-20260921-11](TB-20260921-11-todo-skeleton-add-deadline-field.md) | todo-skeleton-add-deadline-field | 低 | 待办 | 2026-09-21 |
-| [TB-20260921-12](TB-20260921-12-index-trees-sync-missing-files.md) | index-trees-sync-missing-files | 低 | 待办 | 2026-09-21 |
-| [TB-20260921-13](TB-20260921-13-activate-convert-feedback-loop.md) | activate-convert-feedback-loop | 低 | 待办 | 2026-09-21 |
-| [TB-20260921-15](TB-20260921-15-req-new-fill-desc-and-gwt.md) | req-new-fill-desc-and-gwt | 低 | 待办 | 2026-09-21 |
+| [TB-20260921-06](/project-development/06-todos/todo/TB-20260921-06-setup-private-remote-and-push.md) | setup-private-remote-and-push | 高 | 待办 | 2026-09-21 |
+| [TB-20260921-07](/project-development/06-todos/todo/TB-20260921-07-harden-todo-req-filename-sanitize.md) | harden-todo-req-filename-sanitize | 中 | 待办 | 2026-09-21 |
+| [TB-20260921-08](/project-development/06-todos/todo/TB-20260921-08-check-links-enforce-conventions.md) | check-links-enforce-conventions | 中 | 待办 | 2026-09-21 |
+| [TB-20260921-09](/project-development/06-todos/todo/TB-20260921-09-tools-tests-and-ci.md) | tools-tests-and-ci | 中 | 待办 | 2026-09-21 |
+| [TB-20260921-10](/project-development/06-todos/todo/TB-20260921-10-loader-sync-consistency-check.md) | loader-sync-consistency-check | 中 | 待办 | 2026-09-21 |
+| [TB-20260921-11](/project-development/06-todos/todo/TB-20260921-11-todo-skeleton-add-deadline-field.md) | todo-skeleton-add-deadline-field | 低 | 待办 | 2026-09-21 |
+| [TB-20260921-12](/project-development/06-todos/todo/TB-20260921-12-index-trees-sync-missing-files.md) | index-trees-sync-missing-files | 低 | 待办 | 2026-09-21 |
+| [TB-20260921-13](/project-development/06-todos/todo/TB-20260921-13-activate-convert-feedback-loop.md) | activate-convert-feedback-loop | 低 | 待办 | 2026-09-21 |
+| [TB-20260921-15](/project-development/06-todos/todo/TB-20260921-15-req-new-fill-desc-and-gwt.md) | req-new-fill-desc-and-gwt | 低 | 待办 | 2026-09-21 |
 
 **最近完成**（最新 5 条）：
 
 | 编号 | 标题 | 完成日期 |
 | --- | --- | --- |
-| [TB-20260921-14](TB-20260921-14-todo-new-fill-desc-and-dod.md) | todo-new-fill-desc-and-dod | 2026-09-21 |
-| [TB-20260921-05](TB-20260921-05-git-initial-commit.md) | git-initial-commit | 2026-09-21 |
-| [TB-20260921-04](TB-20260921-04-fix-root-index-naming-rule.md) | fix-root-index-naming-rule | 2026-09-21 |
-| [TB-20260921-03](TB-20260921-03-fix-install-add-standards-section.md) | fix-install-add-standards-section | 2026-09-21 |
-| [TB-20260921-02](TB-20260921-02-修复-install.py-自检-KB_HINT-与章节模板表述不一致，首次安装必-FAIL.md) | 修复-install.py-自检-KB_HINT-与章节模板表述不一致，首次安装必-FAIL | 2026-09-21 |
+| [TB-20260921-16](/project-development/06-todos/todo/TB-20260921-16-todo-items-move-to-subdir.md) | todo-items-move-to-subdir | 2026-09-21 |
+| [TB-20260921-14](/project-development/06-todos/todo/TB-20260921-14-todo-new-fill-desc-and-dod.md) | todo-new-fill-desc-and-dod | 2026-09-21 |
+| [TB-20260921-05](/project-development/06-todos/todo/TB-20260921-05-git-initial-commit.md) | git-initial-commit | 2026-09-21 |
+| [TB-20260921-04](/project-development/06-todos/todo/TB-20260921-04-fix-root-index-naming-rule.md) | fix-root-index-naming-rule | 2026-09-21 |
+| [TB-20260921-03](/project-development/06-todos/todo/TB-20260921-03-fix-install-add-standards-section.md) | fix-install-add-standards-section | 2026-09-21 |
 <!-- todos:end -->
