@@ -10,7 +10,7 @@
 
 1. **单文件单待办**：命名 `TB-YYYYMMDD-NN-标题.md`（NN 为当日序号 01~99），统一存放在本目录 `todo/` 下按状态分目录（`pending` / `doing` / `done` / `cancelled` 对应 待办 / 进行中 / 已完成 / 已取消，状态流转时自动移目录；放错目录或遗留在根目录都会被校验点名）；编号即唯一 ID，可全局搜索。
 2. **状态机**：`待办 → 进行中 → 已完成 / 已取消`，状态存于文件头 `status` 字段，四个合法值；文件所在目录与状态保持一致。
-3. **必填字段**（文件头）：`status` / `优先级`（高、中、低）/ `创建日期`；`完成日期` 在完成时自动写入。
+3. **必填字段**（文件头）：`status` / `优先级`（高、中、低）/ `创建日期`；`完成日期` 在完成时自动写入；`期限` 可选（`YYYY-MM-DD`，`new --deadline` 传入，待办/进行中过期会被校验点名）。
 4. **必须有完成标准**（正文 DoD 节）——说不清"什么算完成"的事不登记。
 5. **与需求池联动**：值得排期的改进用 `convert` 转需求（自动建 REQ、双向回写编号），待办随即记为已完成。
 
@@ -18,7 +18,7 @@
 
 | 命令 | 作用 |
 | --- | --- |
-| `python tools/todo.py new "标题" [-p 高] [-d 一句话说明] [--dod 完成标准]…` | 自动编号建单（骨架文件），刷新汇总；`--dod` 可重复传多条，占位符未填会被校验点名 |
+| `python tools/todo.py new "标题" [-p 高] [-d 一句话说明] [--dod 完成标准]… [--deadline YYYY-MM-DD]` | 自动编号建单（骨架文件），刷新汇总；`--dod` 可重复传多条，占位符未填会被校验点名 |
 | `python tools/todo.py start TB-YYYYMMDD-NN` | 待办 → 进行中，追加进展记录 |
 | `python tools/todo.py done TB-YYYYMMDD-NN` | → 已完成：自动写完成日期、追加进展记录、刷新汇总 |
 | `python tools/todo.py cancel TB-YYYYMMDD-NN [原因]` | → 已取消（留档，不删除） |
@@ -55,18 +55,17 @@ status: 待办
 <!-- todos:begin -->
 > 由 `python tools/todo.py sync` 自动生成，手改会被覆盖。
 
-**统计**：待办 5 ｜ 进行中 1 ｜ 已完成 11 ｜ 已取消 0（共 17）
+**统计**：待办 4 ｜ 进行中 1 ｜ 已完成 12 ｜ 已取消 0（共 17）
 
 **未完成**（按创建日期，早的在前）：
 
-| 编号 | 标题 | 优先级 | 状态 | 创建日期 |
-| --- | --- | --- | --- | --- |
-| [TB-20260921-06](/project-development/06-todos/todo/pending/TB-20260921-06-setup-private-remote-and-push.md) | setup-private-remote-and-push | 高 | 待办 | 2026-09-21 |
-| [TB-20260921-10](/project-development/06-todos/todo/doing/TB-20260921-10-loader-sync-consistency-check.md) | loader-sync-consistency-check | 中 | 进行中 | 2026-09-21 |
-| [TB-20260921-11](/project-development/06-todos/todo/pending/TB-20260921-11-todo-skeleton-add-deadline-field.md) | todo-skeleton-add-deadline-field | 低 | 待办 | 2026-09-21 |
-| [TB-20260921-12](/project-development/06-todos/todo/pending/TB-20260921-12-index-trees-sync-missing-files.md) | index-trees-sync-missing-files | 低 | 待办 | 2026-09-21 |
-| [TB-20260921-13](/project-development/06-todos/todo/pending/TB-20260921-13-activate-convert-feedback-loop.md) | activate-convert-feedback-loop | 低 | 待办 | 2026-09-21 |
-| [TB-20260921-15](/project-development/06-todos/todo/pending/TB-20260921-15-req-new-fill-desc-and-gwt.md) | req-new-fill-desc-and-gwt | 低 | 待办 | 2026-09-21 |
+| 编号 | 标题 | 优先级 | 状态 | 创建日期 | 期限 |
+| --- | --- | --- | --- | --- | --- |
+| [TB-20260921-06](/project-development/06-todos/todo/pending/TB-20260921-06-setup-private-remote-and-push.md) | setup-private-remote-and-push | 高 | 待办 | 2026-09-21 |  |
+| [TB-20260921-11](/project-development/06-todos/todo/doing/TB-20260921-11-todo-skeleton-add-deadline-field.md) | todo-skeleton-add-deadline-field | 低 | 进行中 | 2026-09-21 |  |
+| [TB-20260921-12](/project-development/06-todos/todo/pending/TB-20260921-12-index-trees-sync-missing-files.md) | index-trees-sync-missing-files | 低 | 待办 | 2026-09-21 |  |
+| [TB-20260921-13](/project-development/06-todos/todo/pending/TB-20260921-13-activate-convert-feedback-loop.md) | activate-convert-feedback-loop | 低 | 待办 | 2026-09-21 |  |
+| [TB-20260921-15](/project-development/06-todos/todo/pending/TB-20260921-15-req-new-fill-desc-and-gwt.md) | req-new-fill-desc-and-gwt | 低 | 待办 | 2026-09-21 |  |
 
 **最近完成**（最新 5 条）：
 
@@ -75,6 +74,6 @@ status: 待办
 | [TB-20260921-17](/project-development/06-todos/todo/done/TB-20260921-17-todo-items-status-subdirs.md) | todo-items-status-subdirs | 2026-09-21 |
 | [TB-20260921-16](/project-development/06-todos/todo/done/TB-20260921-16-todo-items-move-to-subdir.md) | todo-items-move-to-subdir | 2026-09-21 |
 | [TB-20260921-14](/project-development/06-todos/todo/done/TB-20260921-14-todo-new-fill-desc-and-dod.md) | todo-new-fill-desc-and-dod | 2026-09-21 |
+| [TB-20260921-10](/project-development/06-todos/todo/done/TB-20260921-10-loader-sync-consistency-check.md) | loader-sync-consistency-check | 2026-09-21 |
 | [TB-20260921-09](/project-development/06-todos/todo/done/TB-20260921-09-tools-tests-and-ci.md) | tools-tests-and-ci | 2026-09-21 |
-| [TB-20260921-08](/project-development/06-todos/todo/done/TB-20260921-08-check-links-enforce-conventions.md) | check-links-enforce-conventions | 2026-09-21 |
 <!-- todos:end -->

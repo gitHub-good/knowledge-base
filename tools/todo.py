@@ -129,6 +129,7 @@ def build_block() -> str:
             "link": "/" + p.relative_to(ROOT).as_posix(),  # 汇总链接用仓库根相对路径（编辑规范第 17 条）
             "status": f.get("status", ""), "priority": f.get("优先级", ""),
             "created": f.get("创建日期", ""), "finished": f.get("完成日期", ""),
+            "deadline": f.get("期限", ""),
         })
     counts = {s: sum(1 for i in items if i["status"] == s) for s in STATUSES}
     lines = ["> 由 `python tools/todo.py sync` 自动生成，手改会被覆盖。", ""]
@@ -140,9 +141,9 @@ def build_block() -> str:
                      key=lambda i: (i["created"], i["path"].name))
     if pending:
         lines += ["", "**未完成**（按创建日期，早的在前）：", "",
-                  "| 编号 | 标题 | 优先级 | 状态 | 创建日期 |", "| --- | --- | --- | --- | --- |"]
+                  "| 编号 | 标题 | 优先级 | 状态 | 创建日期 | 期限 |", "| --- | --- | --- | --- | --- | --- |"]
         for i in pending:
-            lines.append(f"| [{i['code']}]({i['link']}) | {i['title']} | {i['priority']} | {i['status']} | {i['created']} |")
+            lines.append(f"| [{i['code']}]({i['link']}) | {i['title']} | {i['priority']} | {i['status']} | {i['created']} | {i['deadline']} |")
     done = sorted((i for i in items if i["status"] == "已完成"),
                   key=lambda i: (i["finished"], i["path"].name), reverse=True)[:5]
     if done:
@@ -186,6 +187,8 @@ def cmd_new(args) -> None:
         f"- {today.isoformat()} 创建。\n"
     )
     fm = f"status: 待办\n优先级: {args.priority}\n创建日期: {today.isoformat()}"
+    if args.deadline:
+        fm += f"\n期限: {args.deadline}"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(f"---\n{fm}\n---\n{body}", encoding="utf-8", newline="\n")
     sync()
@@ -266,6 +269,12 @@ def validate() -> int:
             problems.append(f"{p.name}: 优先级非法（{f.get('优先级', '缺失')}）")
         if not re.match(r"^\d{4}-\d{2}-\d{2}$", f.get("创建日期", "")):
             problems.append(f"{p.name}: 创建日期缺失或格式错")
+        deadline = f.get("期限", "")
+        if deadline and not re.match(r"^\d{4}-\d{2}-\d{2}$", deadline):
+            problems.append(f"{p.name}: 期限格式应为 YYYY-MM-DD（{deadline}）")
+        elif (deadline and re.match(r"^\d{4}-\d{2}-\d{2}$", deadline)
+              and f.get("status") in ("待办", "进行中") and deadline < date.today().isoformat()):
+            problems.append(f"{p.name}: 已过期限（{deadline}）")
         if f.get("status") == "已完成" and not f.get("完成日期"):
             problems.append(f"{p.name}: 已完成但缺完成日期")
         if f.get("status") != "已完成" and f.get("完成日期"):
@@ -305,6 +314,8 @@ def main() -> int:
     p_new.add_argument("-d", "--desc", help="一句话说明（缺省留占位符，校验会提示未填）")
     p_new.add_argument("--dod", action="append", metavar="标准",
                        help="完成标准一条，可重复传入；缺省留占位符")
+    p_new.add_argument("--deadline", metavar="YYYY-MM-DD",
+                       help="可选期限；汇总看板待办列表展示，待办/进行中过期会被校验点名")
     p_start = sub.add_parser("start", help="待办 → 进行中")
     p_start.add_argument("code", help="编号，如 TB-20260917-01")
     p_done = sub.add_parser("done", help="标记完成（自动写日期+进展+刷新汇总）")

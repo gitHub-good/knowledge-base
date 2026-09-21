@@ -96,6 +96,13 @@ class TestTodoFlow(unittest.TestCase):
         self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
         self.assertIn("问题: 0", out.stdout)
 
+    def test_期限字段与过期点名(self):
+        out = run(self.fake, *self.todo, "new", "期限验证", "--deadline", "2000-01-01")
+        self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
+        out = run(self.fake, *self.todo)
+        self.assertEqual(out.returncode, 1, out.stdout + out.stderr)
+        self.assertIn("已过期限", out.stdout)
+
     def test_convert_转需求并回写(self):
         code = self.code()
         out = run(self.fake, *self.todo, "convert", code, "-p", "应该")
