@@ -142,5 +142,12 @@ class TestInstall(unittest.TestCase):
         self.assertIn("无变化", second.stdout)
 
 
+class TestLoaderSync(unittest.TestCase):
+    def test_装载器无漂移(self):
+        """仓库级 .zcode/agents/ 与技能 templates/ 必须逐行对齐（路径策略差异豁免）。"""
+        out = run(ROOT, str(ROOT / ".zcode/skills/virtual-team-setup/install.py"), "--check-sync")
+        self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

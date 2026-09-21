@@ -124,12 +124,39 @@ def update_agents_md(current: str, vt_section: str, std_section: str) -> str:
     return merge_section(current, std_section, STD_START, STD_END, STD_HEADING)
 
 
+def check_sync() -> int:
+    """逐行比对仓库级装载器与安装模板；路径策略类语境差异豁免，其余不一致报漂移。"""
+    divergence_keys = ("~/knowledge-base", "仓库根", "Glob", "知识库约定位置", "知识库根相对",
+                       "install.py", "AGENTS.md", "check_links", "编辑文件规范",
+                       "工作目录", "工作区", "软链接", "mklink", "环境变量", "放回约定位置")
+    drift = []
+    for name in AGENT_NAMES:
+        repo_lines = read_text(KB_ROOT / ".zcode" / "agents" / f"{name}.md").splitlines()
+        tpl_lines = read_text(TEMPLATES / f"{name}.md").splitlines()
+        if len(repo_lines) != len(tpl_lines):
+            drift.append(f"{name}: 行数不一致（仓库级 {len(repo_lines)} 行 / 模板 {len(tpl_lines)} 行），需人工对齐结构")
+            continue
+        for i, (a, b) in enumerate(zip(repo_lines, tpl_lines), 1):
+            if a != b and not any(k in a or k in b for k in divergence_keys):
+                drift.append(f"{name} 第 {i} 行疑似漂移：\n    仓库级: {a}\n    模板  : {b}")
+    if drift:
+        for d in drift:
+            print(f"FAIL: {d}")
+        print("路径策略类差异已自动豁免；以上为内容漂移，请先改角色文档再同步两处装载器。")
+        return 1
+    print("装载器一致性校验通过（仓库级 .zcode/agents/ 与技能 templates/ 逐行对齐，路径策略类差异已豁免）。")
+    return 0
+
+
 def main() -> int:
     dry = "--dry-run" in sys.argv
 
     if not (KB_ROOT / "AGENTS.md").is_file() or not (KB_ROOT / "project-development" / "10-virtual-team").is_dir():
         die(f"仓库根识别失败（应含 AGENTS.md 与 project-development/10-virtual-team/）：{KB_ROOT}")
     print(f"仓库根: {KB_ROOT}")
+
+    if "--check-sync" in sys.argv:
+        return check_sync()
 
     # ① 装载器（模板原样复制，引用 ~/knowledge-base 约定路径）
     for name in AGENT_NAMES:

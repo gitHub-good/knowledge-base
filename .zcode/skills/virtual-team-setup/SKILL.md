@@ -34,4 +34,4 @@ description: 一键安装/重装/更新「虚拟团队」四角色子智能体�
 
 ## 改了角色规则之后
 
-权威来源是 `<仓库根>/project-development/10-virtual-team/` 的角色文档。若改动涉及装载器内容（职责速记/协作规则/输出要求），同步两处：仓库级 `.zcode/agents/` 与本技能 `templates/`，再重跑 `install.py` 刷到用户级。
+权威来源是 `<仓库根>/project-development/10-virtual-team/` 的角色文档。若改动涉及装载器内容（职责速记/协作规则/输出要求），同步两处：仓库级 `.zcode/agents/` 与本技能 `templates/`，再重跑 `install.py` 刷到用户级。改完用 `python .zcode/skills/virtual-team-setup/install.py --check-sync` 校验两份装载器无内容漂移（路径策略类差异自动豁免；该校验已纳入 `tools/test_tools.py` 与提交门禁）。
