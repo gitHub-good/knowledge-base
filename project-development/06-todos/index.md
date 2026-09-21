@@ -18,13 +18,13 @@
 
 | 命令 | 作用 |
 | --- | --- |
-| `python tools/todo.py new "标题" [-p 高]` | 自动编号建单（骨架文件），刷新汇总 |
+| `python tools/todo.py new "标题" [-p 高] [-d 一句话说明] [--dod 完成标准]…` | 自动编号建单（骨架文件），刷新汇总；`--dod` 可重复传多条，占位符未填会被校验点名 |
 | `python tools/todo.py start TB-YYYYMMDD-NN` | 待办 → 进行中，追加进展记录 |
 | `python tools/todo.py done TB-YYYYMMDD-NN` | → 已完成：自动写完成日期、追加进展记录、刷新汇总 |
 | `python tools/todo.py cancel TB-YYYYMMDD-NN [原因]` | → 已取消（留档，不删除） |
 | `python tools/todo.py convert TB-YYYYMMDD-NN [-p MoSCoW优先级]` | 转需求：自动在 [需求池](/project-development/01-requirements/backlog.md) 建 REQ 条目（来源=待办编号），待办关闭并回写 REQ 编号 |
 | `python tools/todo.py sync` | 重新生成本页汇总区块（勿手改） |
-| `python tools/todo.py`（无参数） | 校验全部待办文件（状态合法、字段齐全、汇总未失同步），有问题退出码 1 |
+| `python tools/todo.py`（无参数） | 校验全部待办文件（状态合法、字段齐全、一句话说明与完成标准已填、汇总未失同步），有问题退出码 1 |
 
 在本仓任意会话中，完成一件待办只需跑 `done <编号>`：状态、日期、进展记录、汇总看板四件事一步自动完成。
 
@@ -55,7 +55,7 @@ status: 待办
 <!-- todos:begin -->
 > 由 `python tools/todo.py sync` 自动生成，手改会被覆盖。
 
-**统计**：待办 8 ｜ 进行中 0 ｜ 已完成 5 ｜ 已取消 0（共 13）
+**统计**：待办 9 ｜ 进行中 0 ｜ 已完成 6 ｜ 已取消 0（共 15）
 
 **未完成**（按创建日期，早的在前）：
 
@@ -69,14 +69,15 @@ status: 待办
 | [TB-20260921-11](TB-20260921-11-todo-skeleton-add-deadline-field.md) | todo-skeleton-add-deadline-field | 低 | 待办 | 2026-09-21 |
 | [TB-20260921-12](TB-20260921-12-index-trees-sync-missing-files.md) | index-trees-sync-missing-files | 低 | 待办 | 2026-09-21 |
 | [TB-20260921-13](TB-20260921-13-activate-convert-feedback-loop.md) | activate-convert-feedback-loop | 低 | 待办 | 2026-09-21 |
+| [TB-20260921-15](TB-20260921-15-req-new-fill-desc-and-gwt.md) | req-new-fill-desc-and-gwt | 低 | 待办 | 2026-09-21 |
 
 **最近完成**（最新 5 条）：
 
 | 编号 | 标题 | 完成日期 |
 | --- | --- | --- |
+| [TB-20260921-14](TB-20260921-14-todo-new-fill-desc-and-dod.md) | todo-new-fill-desc-and-dod | 2026-09-21 |
 | [TB-20260921-05](TB-20260921-05-git-initial-commit.md) | git-initial-commit | 2026-09-21 |
 | [TB-20260921-04](TB-20260921-04-fix-root-index-naming-rule.md) | fix-root-index-naming-rule | 2026-09-21 |
 | [TB-20260921-03](TB-20260921-03-fix-install-add-standards-section.md) | fix-install-add-standards-section | 2026-09-21 |
 | [TB-20260921-02](TB-20260921-02-修复-install.py-自检-KB_HINT-与章节模板表述不一致，首次安装必-FAIL.md) | 修复-install.py-自检-KB_HINT-与章节模板表述不一致，首次安装必-FAIL | 2026-09-21 |
-| [TB-20260921-01](TB-20260921-01-修复-install.py---dry-run-在-~-.zcode-AGENTS.md-不存在时崩溃（首装场景）.md) | 修复-install.py---dry-run-在-~-.zcode-AGENTS.md-不存在时崩溃（首装场景） | 2026-09-21 |
 <!-- todos:end -->

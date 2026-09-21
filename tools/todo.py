@@ -4,7 +4,8 @@
 
 用法（仓库根或任意子目录）：
     python tools/todo.py                            # 校验 + 统计
-    python tools/todo.py new "标题" [-p 高|中|低]      # 建待办（自动编号，刷新汇总）
+    python tools/todo.py new "标题" [-p 高|中|低] [-d 一句话说明] [--dod 完成标准]...
+                                                    # 建待办（自动编号，刷新汇总；--dod 可重复传多条）
     python tools/todo.py start TB-YYYYMMDD-NN       # 待办 → 进行中
     python tools/todo.py done  TB-YYYYMMDD-NN       # → 已完成（自动写完成日期+进展+刷新汇总）
     python tools/todo.py cancel TB-YYYYMMDD-NN [原因] # → 已取消（留档）
@@ -155,11 +156,14 @@ def cmd_new(args) -> None:
     if not title:
         die("标题为空（或清洗后为空）")
     path = TODO_DIR / f"{prefix}{seq:02d}-{title}.md"
+    desc = (args.desc or "一句话说明").strip()
+    dod = [i.strip() for i in (args.dod or []) if i.strip()]
+    dod_lines = "\n".join(f"- [ ] {i}" for i in dod) or "- [ ] 达到什么程度算完成"
     body = (
         f"# 📌 {args.title.strip()}\n\n"
-        f"> 一句话说明\n\n"
+        f"> {desc}\n\n"
         f"## 📋 完成标准\n\n"
-        f"- [ ] 达到什么程度算完成\n\n"
+        f"{dod_lines}\n\n"
         f"## 📝 进展记录\n\n"
         f"- {today.isoformat()} 创建。\n"
     )
@@ -245,6 +249,10 @@ def validate() -> int:
             problems.append(f"{p.name}: 未完成却带完成日期")
         if "## 📋 完成标准" not in d["body"]:
             problems.append(f"{p.name}: 缺完成标准节")
+        if re.search(r"^> 一句话说明$", d["body"], re.M):
+            problems.append(f"{p.name}: 一句话说明未填写（new -d 或手工补）")
+        if re.search(r"^- \[ \] 达到什么程度算完成$", d["body"], re.M):
+            problems.append(f"{p.name}: 完成标准未填写（new --dod 或手工补）")
     if BEGIN not in INDEX.read_text(encoding="utf-8"):
         problems.append("index.md 缺汇总区块标记")
     elif build_block().rstrip("\n") not in INDEX.read_text(encoding="utf-8"):
@@ -265,6 +273,9 @@ def main() -> int:
     p_new = sub.add_parser("new", help="新建待办")
     p_new.add_argument("title", help="待办标题")
     p_new.add_argument("-p", "--priority", default="中", help="优先级：高/中/低")
+    p_new.add_argument("-d", "--desc", help="一句话说明（缺省留占位符，校验会提示未填）")
+    p_new.add_argument("--dod", action="append", metavar="标准",
+                       help="完成标准一条，可重复传入；缺省留占位符")
     p_start = sub.add_parser("start", help="待办 → 进行中")
     p_start.add_argument("code", help="编号，如 TB-20260917-01")
     p_done = sub.add_parser("done", help="标记完成（自动写日期+进展+刷新汇总）")

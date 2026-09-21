@@ -1,0 +1,17 @@
+---
+status: 待办
+优先级: 低
+创建日期: 2026-09-21
+---
+# 📌 req-new-fill-desc-and-gwt
+
+> req.py new 与 todo.py 同款问题：只接受标题，验收标准停留在 Given/When/Then 占位符，validate 不检查未填
+
+## 📋 完成标准
+
+- [ ] new 支持 -d 描述与 --gwt 验收标准（可重复传多条）
+- [ ] validate 将验收标准占位符未填计为问题
+
+## 📝 进展记录
+
+- 2026-09-21 创建。
