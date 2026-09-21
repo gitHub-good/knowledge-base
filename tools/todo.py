@@ -14,7 +14,8 @@
                                                     #   待办关闭并回写 REQ 编号（调用 tools/req.py）
     python tools/todo.py sync                       # 重新生成 06-todos/index.md 汇总区块
 
-文件：project-development/06-todos/todo/TB-YYYYMMDD-NN-标题.md（06-todos 下的 todo/ 子目录）；汇总区块在 06-todos/index.md 的
+文件：project-development/06-todos/todo/<状态目录>/TB-YYYYMMDD-NN-标题.md（状态目录 pending/doing/done/cancelled
+对应 待办/进行中/已完成/已取消，状态流转时自动移目录）；汇总区块在 06-todos/index.md 的
 <!-- todos:begin/end --> 标记之间。退出码：有问题 = 1，全过 = 0。
 """
 import argparse
@@ -34,6 +35,7 @@ TODO_DIR = ROOT / "project-development" / "06-todos" / "todo"  # 待办单文件
 INDEX = TODO_DIR.parent / "index.md"
 BEGIN, END = "<!-- todos:begin -->", "<!-- todos:end -->"
 STATUSES = ("待办", "进行中", "已完成", "已取消")
+STATUS_DIRS = {"待办": "pending", "进行中": "doing", "已完成": "done", "已取消": "cancelled"}
 PRIORITIES = ("高", "中", "低")
 FILE_RE = re.compile(r"^TB-(\d{8})-(\d{2})-(.+)\.md$")
 
@@ -48,9 +50,12 @@ def sanitize(title: str) -> str:
 
 
 def todos() -> list:
-    if not TODO_DIR.is_dir():
-        return []
-    return sorted(p for p in TODO_DIR.iterdir() if p.is_file() and FILE_RE.match(p.name))
+    files = []
+    for d in STATUS_DIRS.values():
+        sub = TODO_DIR / d
+        if sub.is_dir():
+            files += (p for p in sub.iterdir() if p.is_file() and FILE_RE.match(p.name))
+    return sorted(files)
 
 
 def load(path: Path) -> dict:
@@ -82,6 +87,16 @@ def set_field(fm_raw: str, key: str, value: str) -> str:
 
 def save(path: Path, fm_raw: str, body: str) -> None:
     path.write_text(f"---\n{fm_raw}\n---\n{body}", encoding="utf-8", newline="\n")
+
+
+def relocate(path: Path, status: str) -> Path:
+    """状态流转后把文件移到对应状态目录（分状态分目录）。"""
+    target_dir = TODO_DIR / STATUS_DIRS[status]
+    target_dir.mkdir(parents=True, exist_ok=True)
+    target = target_dir / path.name
+    if path != target:
+        path.replace(target)
+    return target
 
 
 def append_log(body: str, line: str) -> str:
@@ -156,7 +171,7 @@ def cmd_new(args) -> None:
     title = sanitize(args.title)
     if not title:
         die("标题为空（或清洗后为空）")
-    path = TODO_DIR / f"{prefix}{seq:02d}-{title}.md"
+    path = TODO_DIR / STATUS_DIRS["待办"] / f"{prefix}{seq:02d}-{title}.md"
     desc = (args.desc or "一句话说明").strip()
     dod = [i.strip() for i in (args.dod or []) if i.strip()]
     dod_lines = "\n".join(f"- [ ] {i}" for i in dod) or "- [ ] 达到什么程度算完成"
@@ -186,6 +201,7 @@ def _transition(code: str, new_status: str, log_word: str) -> None:
     if new_status == "已完成":
         fm = set_field(fm, "完成日期", today)
     save(path, fm, body)
+    path = relocate(path, new_status)
     sync()
     print(f"[{new_status}] {path.name}")
 
@@ -199,6 +215,7 @@ def cmd_cancel(args) -> None:
     fm = set_field(d["raw"], "status", "已取消")
     body = append_log(d["body"], f"{date.today().isoformat()} 取消：{reason}。")
     save(path, fm, body)
+    path = relocate(path, "已取消")
     sync()
     print(f"[已取消] {path.name}")
 
@@ -226,6 +243,7 @@ def cmd_convert(args) -> None:
     fm = set_field(set_field(d["raw"], "status", "已完成"), "完成日期", today)
     body = append_log(d["body"], f"{today} 转需求 {req_code}，由需求池跟踪。")
     save(path, fm, body)
+    path = relocate(path, "已完成")
     sync()
     print(f"[转需求] {path.name} → {req_code}（待办记为已完成，进展已回写编号）")
 
@@ -240,6 +258,8 @@ def validate() -> int:
             continue
         if f.get("status") not in STATUSES:
             problems.append(f"{p.name}: status 非法（{f.get('status', '缺失')}）")
+        if f.get("status") in STATUS_DIRS and p.parent.name != STATUS_DIRS[f.get("status")]:
+            problems.append(f"{p.name}: 状态（{f.get('status')}）与目录不符（在 {p.parent.name}/，应在 {STATUS_DIRS[f.get('status')]}/）")
         if f.get("优先级") not in PRIORITIES:
             problems.append(f"{p.name}: 优先级非法（{f.get('优先级', '缺失')}）")
         if not re.match(r"^\d{4}-\d{2}-\d{2}$", f.get("创建日期", "")):
@@ -257,6 +277,9 @@ def validate() -> int:
     stray = [p.name for p in TODO_DIR.parent.iterdir() if p.is_file() and FILE_RE.match(p.name)]
     if stray:
         problems.append(f"06-todos 根目录有待办未移入 todo/ 子目录：{'、'.join(stray)}")
+    loose = [p.name for p in TODO_DIR.iterdir() if p.is_file() and FILE_RE.match(p.name)] if TODO_DIR.is_dir() else []
+    if loose:
+        problems.append(f"todo/ 根目录有待办未按状态分目录：{'、'.join(loose)}")
     if BEGIN not in INDEX.read_text(encoding="utf-8"):
         problems.append("index.md 缺汇总区块标记")
     elif build_block().rstrip("\n") not in INDEX.read_text(encoding="utf-8"):
