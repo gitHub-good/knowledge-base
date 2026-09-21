@@ -55,15 +55,14 @@ status: 待办
 <!-- todos:begin -->
 > 由 `python tools/todo.py sync` 自动生成，手改会被覆盖。
 
-**统计**：待办 8 ｜ 进行中 1 ｜ 已完成 8 ｜ 已取消 0（共 17）
+**统计**：待办 7 ｜ 进行中 1 ｜ 已完成 9 ｜ 已取消 0（共 17）
 
 **未完成**（按创建日期，早的在前）：
 
 | 编号 | 标题 | 优先级 | 状态 | 创建日期 |
 | --- | --- | --- | --- | --- |
 | [TB-20260921-06](/project-development/06-todos/todo/pending/TB-20260921-06-setup-private-remote-and-push.md) | setup-private-remote-and-push | 高 | 待办 | 2026-09-21 |
-| [TB-20260921-07](/project-development/06-todos/todo/doing/TB-20260921-07-harden-todo-req-filename-sanitize.md) | harden-todo-req-filename-sanitize | 中 | 进行中 | 2026-09-21 |
-| [TB-20260921-08](/project-development/06-todos/todo/pending/TB-20260921-08-check-links-enforce-conventions.md) | check-links-enforce-conventions | 中 | 待办 | 2026-09-21 |
+| [TB-20260921-08](/project-development/06-todos/todo/doing/TB-20260921-08-check-links-enforce-conventions.md) | check-links-enforce-conventions | 中 | 进行中 | 2026-09-21 |
 | [TB-20260921-09](/project-development/06-todos/todo/pending/TB-20260921-09-tools-tests-and-ci.md) | tools-tests-and-ci | 中 | 待办 | 2026-09-21 |
 | [TB-20260921-10](/project-development/06-todos/todo/pending/TB-20260921-10-loader-sync-consistency-check.md) | loader-sync-consistency-check | 中 | 待办 | 2026-09-21 |
 | [TB-20260921-11](/project-development/06-todos/todo/pending/TB-20260921-11-todo-skeleton-add-deadline-field.md) | todo-skeleton-add-deadline-field | 低 | 待办 | 2026-09-21 |
@@ -78,6 +77,6 @@ status: 待办
 | [TB-20260921-17](/project-development/06-todos/todo/done/TB-20260921-17-todo-items-status-subdirs.md) | todo-items-status-subdirs | 2026-09-21 |
 | [TB-20260921-16](/project-development/06-todos/todo/done/TB-20260921-16-todo-items-move-to-subdir.md) | todo-items-move-to-subdir | 2026-09-21 |
 | [TB-20260921-14](/project-development/06-todos/todo/done/TB-20260921-14-todo-new-fill-desc-and-dod.md) | todo-new-fill-desc-and-dod | 2026-09-21 |
+| [TB-20260921-07](/project-development/06-todos/todo/done/TB-20260921-07-harden-todo-req-filename-sanitize.md) | harden-todo-req-filename-sanitize | 2026-09-21 |
 | [TB-20260921-05](/project-development/06-todos/todo/done/TB-20260921-05-git-initial-commit.md) | git-initial-commit | 2026-09-21 |
-| [TB-20260921-04](/project-development/06-todos/todo/done/TB-20260921-04-fix-root-index-naming-rule.md) | fix-root-index-naming-rule | 2026-09-21 |
 <!-- todos:end -->
