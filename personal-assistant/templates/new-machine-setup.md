@@ -13,6 +13,7 @@
 - [ ] **克隆私有仓**：`git clone git@github.com:gitHub-good/knowledge-base.git ~/knowledge-base`——**放对约定位置即零配置**（体系内所有引用都指向 `~/knowledge-base`；放别处也行，安装脚本会自动在家目录建链接指过去）
 - [ ] **完整性校验**：在仓库根执行 `python tools/check_links.py`，问题数为 0
 - [ ] **工具自检**：`python tools/todo.py` 与 `python tools/req.py` 各跑一遍，问题数为 0
+- [ ] **启用提交门禁**：`git config core.hooksPath .githooks`（提交前自动跑链接/待办/需求校验与工具自测，不过不让提交；CI 推送后同理）
 
 ## 🤖 三、ZCode 与虚拟团队
 
