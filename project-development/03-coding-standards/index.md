@@ -1,11 +1,11 @@
 # ✍️ 03 · 编码规范
 
-> 代码首先是写给人看的。本阶段聚合**业界最流行的编码规范**：通用原则来自 Clean Code 与 Google Style Guides，语言细则对齐《阿里巴巴 Java 开发手册》、Airbnb JavaScript 风格指南、PEP 8 等主流基线。配套的 [Git 提交与分支规范](/project-development/03-coding-standards/git-conventions.md) 保证协作历史可读可回溯。
+> 代码首先是写给人看的。本阶段聚合**业界最流行的编码规范**：通用原则来自 Clean Code 与 Google Style Guides，语言细则对齐《阿里巴巴 Java 开发手册》、Airbnb JavaScript 风格指南、PEP 8 等主流基线。配套的 [Git 提交与分支规范](./git-conventions.md) 保证协作历史可读可回溯。
 
 ## 📍 阶段定位
 
-- 📥 **上游输入**：[02 设计架构](/project-development/02-design/index.md) 评审通过的方案与 ≤2 人天的任务拆解。
-- 📤 **下游输出**：通过 lint + 本地自测的代码分支，进入 [04 测试规范](/project-development/04-testing/index.md)。
+- 📥 **上游输入**：[02 设计架构](../02-design/index.md) 评审通过的方案与 ≤2 人天的任务拆解。
+- 📤 **下游输出**：通过 lint + 本地自测的代码分支，进入 [04 测试规范](../04-testing/index.md)。
 
 ## 💡 一、通用设计原则（先于一切语言规范）
 
@@ -83,14 +83,14 @@
 
 ## 🧭 七、技术栈基线（默认选型）
 
-> 新项目从这里拿"无聊但成熟"的默认答案，选型方法论见 [02·技术选型评估](/project-development/02-design/index.md#tech-evaluation)。后端默认轻量级：全内嵌中间件，`java -jar` 单包即起。
+> 新项目从这里拿"无聊但成熟"的默认答案，选型方法论见 [02·技术选型评估](../02-design/index.md#tech-evaluation)。后端默认轻量级：全内嵌中间件，`java -jar` 单包即起。
 
 | 文档 | 何时用 | 核心原则 |
 | --- | --- | --- |
-| [🎨 前端技术栈](/project-development/03-coding-standards/frontend.md) | 搭/改前端项目、定前端规范前 | 默认 React 18 + TS + Tailwind + shadcn/ui；美观与顺手是硬要求 |
-| [🧱 后端技术栈](/project-development/03-coding-standards/backend.md) | 搭/改后端项目、定接口与数据规范前 | 默认轻量级：Java 21 + Spring Boot 3 + 全内嵌中间件 |
+| [🎨 前端技术栈](./frontend.md) | 搭/改前端项目、定前端规范前 | 默认 React 18 + TS + Tailwind + shadcn/ui；美观与顺手是硬要求 |
+| [🧱 后端技术栈](./backend.md) | 搭/改后端项目、定接口与数据规范前 | 默认轻量级：Java 21 + Spring Boot 3 + 全内嵌中间件 |
 
-约定：默认基线不是唯一答案，偏离必须能说出理由（记 [ADR](/project-development/02-design/adr-template.md)）；版本号写具体；升级版本先记待办评估破坏性变更；踩到的坑进 [踩坑记录](/personal-assistant/lessons-learned/pitfall-records.md) 并回写基线。
+约定：默认基线不是唯一答案，偏离必须能说出理由（记 [ADR](../02-design/adr-template.md)）；版本号写具体；升级版本先记待办评估破坏性变更；踩到的坑进 [踩坑记录](../../personal-assistant/lessons-learned/pitfall-records.md) 并回写基线。
 
 ## 🔁 八、编码阶段工作流
 
@@ -110,4 +110,4 @@
 - [ ] 异常不吞、日志分级正确、错误信息带上下文
 - [ ] 格式化与静态检查工具全绿（lint 0 error 0 warning）
 - [ ] 本地自测通过：主路径 + 边界 + 异常场景
-- [ ] 提交信息符合 Conventional Commits → 进入 [04 测试规范](/project-development/04-testing/index.md)
+- [ ] 提交信息符合 Conventional Commits → 进入 [04 测试规范](../04-testing/index.md)

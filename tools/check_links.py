@@ -7,7 +7,8 @@
 
 规则：
 - 跳过 http(s)/mailto 外链；只校验仓库内链接
-- 链接目标必须为仓库根相对路径（/目录/文件.md），禁止 ./xxx、../xxx（编辑规范第 17 条）
+- 链接目标支持相对当前文件的路径（./xxx、../xxx，编辑规范第 17 条）与旧仓库根相对路径（/xxx）
+- 链接目标解析越出仓库根即报错（盘符绝对路径等）
 - 指向目录的链接要求该目录含 index.md（编辑规范第 19 条）
 - 带 #fragment 的链接，要求目标文件存在 <a id="fragment"></a>（围栏/行内代码中的不算数）
 - 同一文件内 <a id> 不得重复
@@ -64,16 +65,17 @@ def main() -> int:
                 continue
             total += 1
             path_part, _, fragment = target.partition("#")
-            if path_part.startswith(("./", "../")) or path_part in (".", ".."):
-                broken.append(f"[相对写法] {rel} -> {target}（应为仓库根相对 /路径）")
-                continue
-            # root-relative (/xxx) → resolve from ROOT; else relative to file dir
+            # 相对当前文件解析（编辑规范第 17 条）；/xxx 为旧根相对写法，仍兼容校验
             if path_part.startswith("/"):
                 target_file = os.path.normpath(os.path.join(ROOT, path_part[1:]))
             elif not path_part:
                 target_file = md
             else:
                 target_file = os.path.normpath(os.path.join(os.path.dirname(md), path_part))
+            if not (os.path.abspath(target_file) == os.path.abspath(ROOT)
+                    or os.path.abspath(target_file).startswith(os.path.abspath(ROOT) + os.sep)):
+                broken.append(f"[越出仓库] {rel} -> {target}")
+                continue
             if os.path.isdir(target_file):
                 if not os.path.isfile(os.path.join(target_file, "index.md")):
                     broken.append(f"[目录缺索引] {rel} -> {target}")

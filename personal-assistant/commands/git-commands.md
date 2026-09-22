@@ -1,6 +1,6 @@
 # 🌿 Git 命令速查
 
-> 提交规范与分支模型见 [Git 提交与分支规范](/project-development/03-coding-standards/git-conventions.md#commit-spec)，本文只管"命令怎么敲"。
+> 提交规范与分支模型见 [Git 提交与分支规范](../../project-development/03-coding-standards/git-conventions.md#commit-spec)，本文只管"命令怎么敲"。
 
 ## ⚙️ 一、配置（每台机器一次）
 

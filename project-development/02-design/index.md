@@ -4,8 +4,8 @@
 
 ## 📍 阶段定位
 
-- 📥 **上游输入**：[01 需求管理](/project-development/01-requirements/index.md) 冻结的需求（含验收标准）。
-- 📤 **下游输出**：评审通过的技术方案 + ADR 记录，作为 [03 编码规范](/project-development/03-coding-standards/index.md) 阶段任务拆解的依据。
+- 📥 **上游输入**：[01 需求管理](../01-requirements/index.md) 冻结的需求（含验收标准）。
+- 📤 **下游输出**：评审通过的技术方案 + ADR 记录，作为 [03 编码规范](../03-coding-standards/index.md) 阶段任务拆解的依据。
 
 ## 🧱 一、分层架构（最通用的默认骨架）
 
@@ -44,7 +44,7 @@
 
 ## ⚖️ 三、技术选型评估
 
-> 没有特殊诉求时，先取 [个人技术栈基线](/project-development/03-coding-standards/index.md) 的默认选型，再按本节方法评估偏离项——偏离默认的决策记 ADR。
+> 没有特殊诉求时，先取 [个人技术栈基线](../03-coding-standards/index.md) 的默认选型，再按本节方法评估偏离项——偏离默认的决策记 ADR。
 
 对候选技术按五个维度打分（1-5），留档进 ADR：
 
@@ -87,7 +87,7 @@
 
 ## 🧾 六、ADR（Architecture Decision Record）——决策留痕
 
-架构上所有"**做过选择**"的地方（框架、存储、中间件、分层方式，以及[方案库](/project-development/02-design/solution-catalog.md)中方案的取舍）都记一条 ADR，模板见 [ADR模板.md](/project-development/02-design/adr-template.md)。放在项目 `docs/adr/` 目录，编号递增，**只追加不修改**——决策变了就新增一条并标记替代关系。
+架构上所有"**做过选择**"的地方（框架、存储、中间件、分层方式，以及[方案库](./solution-catalog.md)中方案的取舍）都记一条 ADR，模板见 [ADR模板.md](./adr-template.md)。放在项目 `docs/adr/` 目录，编号递增，**只追加不修改**——决策变了就新增一条并标记替代关系。
 
 <a id="design-review"></a>
 
@@ -97,7 +97,7 @@
 
 常见场景（幂等、缓存、异步解耦、状态机、对账、RBAC 等 12 类）**先查成熟方案再动手**，每个方案含适用场景 / 标准结构 / 关键要点 / 常见坑：
 
-- 入口：[通用设计方案库](/project-development/02-design/solution-catalog.md)
+- 入口：[通用设计方案库](./solution-catalog.md)
 - 用法：对号入座 → 按图施工 → 裁剪点记 ADR；文末附"交易类 / 内容类 / 中后台 / 第三方对接"四套常用组合，可整包采用。
 
 ## ✅ 八、设计评审检查清单
@@ -109,8 +109,8 @@
 - [ ] 关键决策已有 ADR（含被否方案与理由）
 - [ ] 非功能需求已考虑：性能目标、容量预估、安全（鉴权/脱敏/限流）、降级预案
 - [ ] 风险清单已列出，高风险项有 Plan B
-- [ ] 任务已拆解到 ≤2 人天粒度 → 进入 [03 编码规范](/project-development/03-coding-standards/index.md)
+- [ ] 任务已拆解到 ≤2 人天粒度 → 进入 [03 编码规范](../03-coding-standards/index.md)
 
 ## 📎 附：技术方案文档模板
 
-见 [technical-design.md](/personal-assistant/templates/technical-design.md)，与本阶段检查清单一一对应。
+见 [technical-design.md](../../personal-assistant/templates/technical-design.md)，与本阶段检查清单一一对应。

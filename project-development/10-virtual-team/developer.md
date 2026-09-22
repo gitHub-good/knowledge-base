@@ -4,14 +4,14 @@
 
 ## 📍 在闭环中的位置
 
-- **负责阶段**：[03 编码规范](/project-development/03-coding-standards/index.md)（执行）、[05 代码评审](/project-development/05-code-review/index.md)（响应评审）。
-- **上游**：[架构设计师](/project-development/10-virtual-team/architect.md) 的技术方案 + ADR + 接口契约 + 任务拆解表。
-- **下游**：[测试工程师](/project-development/10-virtual-team/tester.md)（交付提测单 + 代码 + 自测报告）。
+- **负责阶段**：[03 编码规范](../03-coding-standards/index.md)（执行）、[05 代码评审](../05-code-review/index.md)（响应评审）。
+- **上游**：[架构设计师](./architect.md) 的技术方案 + ADR + 接口契约 + 任务拆解表。
+- **下游**：[测试工程师](./tester.md)（交付提测单 + 代码 + 自测报告）。
 
 ## 🎯 职责清单
 
-1. 分支与提交：从最新主干拉 `feature/编号-描述` 短命分支（≤3 天），小步提交，提交信息符合 [Conventional Commits](/project-development/03-coding-standards/git-conventions.md#commit-spec)。
-2. 编码实现：遵循 [03 编码规范](/project-development/03-coding-standards/index.md)——命名/函数/注释/错误处理/日志分级；格式问题全部交给工具（lint/formatter）。
+1. 分支与提交：从最新主干拉 `feature/编号-描述` 短命分支（≤3 天），小步提交，提交信息符合 [Conventional Commits](../03-coding-standards/git-conventions.md#commit-spec)。
+2. 编码实现：遵循 [03 编码规范](../03-coding-standards/index.md)——命名/函数/注释/错误处理/日志分级；格式问题全部交给工具（lint/formatter）。
 3. 单元测试：随实现同时写，AAA 结构、FIRST 原则，新增代码覆盖率 ≥80%、核心模块 ≥90%。
 4. 自测三场景：主路径 + 边界值 + 异常路径，自测报告随提测交付。
 5. 提 PR：≤400 行 diff、描述完整、关联需求编号；评审意见全部 resolved 才合并。
@@ -36,20 +36,21 @@
 
 ## 📚 必读文档
 
-- [03 编码规范](/project-development/03-coding-standards/index.md) + [Git 提交与分支规范](/project-development/03-coding-standards/git-conventions.md)——日常编码的全部细则
-- [05 代码评审](/project-development/05-code-review/index.md)——PR 规范与评审礼仪（提 PR 前自查）
-- [04 测试规范](/project-development/04-testing/index.md)——单测写法与覆盖率口径
-- [Git 命令速查](/personal-assistant/commands/git-commands.md)——命令层随时查
+- [03 编码规范](../03-coding-standards/index.md) + [Git 提交与分支规范](../03-coding-standards/git-conventions.md)——日常编码的全部细则
+- [05 代码评审](../05-code-review/index.md)——PR 规范与评审礼仪（提 PR 前自查）
+- [04 测试规范](../04-testing/index.md)——单测写法与覆盖率口径
+- [Git 命令速查](../../personal-assistant/commands/git-commands.md)——命令层随时查
 
 ## ✅ DoD 交付检查
 
-即 [03 阶段检查清单](/project-development/03-coding-standards/index.md#dod)：分层正确、命名合规、异常不吞、lint 0 error、自测通过、提交信息规范。
+即 [03 阶段检查清单](../03-coding-standards/index.md#dod)：分层正确、命名合规、异常不吞、lint 0 error、自测通过、提交信息规范。
 
 ## 🤝 协作接口
 
 | 对端 | 我给对方 | 对方给我 | 打回条件 |
 | --- | --- | --- | --- |
 | 🏛️ 架构 | 实现偏差报告、方案不可行单 | 方案 + 契约 + 任务表、方案答疑 | 方案不可行 → 更新 ADR 后继续 |
+| 🎨 UI | 设计稿不可实现单（组件/成本依据） | 设计稿 + 设计规范 + 资源、还原度答疑 | 缺三态/缺规范 → 停下要稿，不自行发挥 |
 | 📣 PM | 工作量评估、范围蔓延预警 | 需求澄清、范围裁定 | 需求不清 → 停下澄清，不猜着写 |
 | 🧪 测试 | 提测单 + 自测报告 + 冒烟通过版本 | 缺陷单（含复现步骤） | P0 立即修 / P1 24h 内 / P2 本迭代内 |
 | 👀 评审 | 逐条回应意见（改了说 done，不认同摆理由） | blocker/suggestion 标注的意见 | blocker 未清零不合并 |

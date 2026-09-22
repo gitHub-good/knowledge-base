@@ -1,6 +1,6 @@
 ---
 name: virtual-team-setup
-description: 一键安装/重装/更新「虚拟团队」四角色子智能体（product-manager/architect/developer/tester）到用户级 ZCode 配置。Triggers on "换电脑", "新电脑", "重装虚拟团队", "恢复虚拟团队", "安装虚拟团队", "子智能体不见了", "virtual team setup".
+description: 一键安装/重装/更新「虚拟团队」六角色子智能体（market-researcher/product-manager/architect/ui-designer/developer/tester）到用户级 ZCode 配置。Triggers on "换电脑", "新电脑", "重装虚拟团队", "恢复虚拟团队", "安装虚拟团队", "子智能体不见了", "virtual team setup".
 ---
 
 # 虚拟团队安装（换机一键恢复）
@@ -28,9 +28,9 @@ description: 一键安装/重装/更新「虚拟团队」四角色子智能体�
    python <仓库根>/.zcode/skills/virtual-team-setup/install.py
    ```
 
-   可先加 `--dry-run` 预览。脚本自动完成：① 复制四个装载器到 `~/.zcode/agents/`（引用约定位置 `~/knowledge-base`，**不含盘符绝对路径、零环境变量**）；② 在 `~/.zcode/AGENTS.md` 幂等插入/替换「虚拟团队子智能体」与「编辑文件规范（指向 `~/knowledge-base` 下规范原文）」两章节，并把「知识库位置」行统一为约定位置指引；③ 确保家目录约定位置 `~/knowledge-base` 指向本仓库（缺失时自动创建：Windows 用 junction，Unix 用软链接）；④ 自检 frontmatter、BOM、无盘符路径、角色文档在位、约定位置可访问。
-3. 核对脚本输出：应列出 4 个装载器写入结果、AGENTS.md 更新方式（新增/替换/无变化）、自检全过。出现 FAIL 逐条修复后重跑。
-4. 告知用户：**重启 ZCode 会话生效**，「设置 → 子智能体」应显示四个角色；之后在任意项目工作区下达开发任务，主会话按 `~/.zcode/AGENTS.md` 的路由规则自动调度。
+   可先加 `--dry-run` 预览。脚本自动完成：① 复制六个装载器到 `~/.zcode/agents/`（引用约定位置 `~/knowledge-base`，**不含盘符绝对路径、零环境变量**）；② 在 `~/.zcode/AGENTS.md` 幂等插入/替换「虚拟团队子智能体」与「编辑文件规范（指向 `~/knowledge-base` 下规范原文）」两章节，并把「知识库位置」行统一为约定位置指引；③ 确保家目录约定位置 `~/knowledge-base` 指向本仓库（缺失时自动创建：Windows 用 junction，Unix 用软链接）；④ 自检 frontmatter、BOM、无盘符路径、角色文档在位、约定位置可访问。
+3. 核对脚本输出：应列出 6 个装载器写入结果、AGENTS.md 更新方式（新增/替换/无变化）、自检全过。出现 FAIL 逐条修复后重跑。
+4. 告知用户：**重启 ZCode 会话生效**，「设置 → 子智能体」应显示六个角色；之后在任意项目工作区下达开发任务，主会话按 `~/.zcode/AGENTS.md` 的路由规则自动调度。
 
 ## 改了角色规则之后
 

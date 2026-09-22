@@ -81,7 +81,7 @@ docs/补充退保链路文档                 # 文档
 
 ## 🔀 四、合并规范（PR/MR）
 
-1. **PR ≤400 行 diff**：大了就拆——大 PR 等于没人评审（依据 [05 评审流程与时效](/project-development/05-code-review/index.md#review-process)）。
+1. **PR ≤400 行 diff**：大了就拆——大 PR 等于没人评审（依据 [05 评审流程与时效](../05-code-review/index.md#review-process)）。
 2. 合并前 rebase 或 merge 最新 main，保证可编译可部署。
 3. 合并方式统一：**Squash and Merge**（一个 PR 压成一个干净提交，类型沿用 PR 首条提交信息）。
 4. PR 描述模板：
@@ -112,6 +112,6 @@ docs/补充退保链路文档                 # 文档
 
 ## 🪝 六、常用钩子与约定
 
-- `.gitignore` 项目第一天就配齐（模板见仓库根 [.gitignore](/.gitignore)）；密钥、`.env`、构建产物永不入库。
+- `.gitignore` 项目第一天就配齐（模板见仓库根 [.gitignore](../../.gitignore)）；密钥、`.env`、构建产物永不入库。
 - 每次开新分支前先同步主干：`git checkout main && git pull`。
 - 每天结束前推送 feature 分支到远端——**本地不是备份**。

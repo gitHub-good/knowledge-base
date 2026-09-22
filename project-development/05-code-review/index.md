@@ -4,7 +4,7 @@
 
 ## 📍 阶段定位
 
-- 📥 **上游输入**：通过 [04 测试规范](/project-development/04-testing/index.md) 自查、lint 全绿的 PR。
+- 📥 **上游输入**：通过 [04 测试规范](../04-testing/index.md) 自查、lint 全绿的 PR。
 - 📤 **下游输出**：评审通过（approve）并合入主干的代码——链路收口。
 
 <a id="review-process"></a>
@@ -57,7 +57,7 @@
 **作者：**
 - PR 描述写清楚"做什么/为什么/怎么测"，别让评审人考古。
 - 每个 comment 都要回应：改了就说 done；不认同就摆理由，不许"已读不回"。
-- 大改动先发设计（见 [02 设计架构](/project-development/02-design/index.md)），评审不是用来否决方案的。
+- 大改动先发设计（见 [02 设计架构](../02-design/index.md)），评审不是用来否决方案的。
 
 ## ⛔ 四、常见否决点（blocker 速查）
 

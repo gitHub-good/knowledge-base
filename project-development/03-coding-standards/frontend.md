@@ -36,7 +36,7 @@ src/
 约定：
 1. **请求层统一封装**：一个 axios 实例 + 拦截器做三件事——带 token、统一错误码映射成提示、超时 10s 自动取消；业务代码不直接 `import axios`。
 2. **环境变量**：`VITE_` 前缀，三套环境（dev / test / prod）各一份 `.env.*`；密钥类永不进前端环境文件（前端无秘密）。
-3. **接口约定**：跟后端统一响应结构 `{code, msg, data}`（见 [后端技术栈](/project-development/03-coding-standards/backend.md)）；分页固定 `page/pageSize/total`。
+3. **接口约定**：跟后端统一响应结构 `{code, msg, data}`（见 [后端技术栈](./backend.md)）；分页固定 `page/pageSize/total`。
 
 ## ⚡ 三、性能基线（写进 CI 的数字）
 
@@ -58,7 +58,7 @@ src/
 
 - 跨域本地走 Vite proxy，不改后端 CORS。
 - 接口未就绪时用 MSW 或简单 mock 文件占位，联调日整体切换。
-- 前后端字段变更走 [Git 提交与分支规范](/project-development/03-coding-standards/git-conventions.md#commit-spec)，契约变更先改接口文档再动代码。
+- 前后端字段变更走 [Git 提交与分支规范](./git-conventions.md#commit-spec)，契约变更先改接口文档再动代码。
 
 ## ✅ 检查清单
 
@@ -68,4 +68,4 @@ src/
 - [ ] ESLint + Prettier 接入提交检查，0 error
 - [ ] 请求层统一封装，业务代码无裸 axios
 - [ ] 首屏 ≤ 300KB，路由懒加载生效
-- [ ] 踩坑已进 [踩坑记录](/personal-assistant/lessons-learned/pitfall-records.md)
+- [ ] 踩坑已进 [踩坑记录](../../personal-assistant/lessons-learned/pitfall-records.md)

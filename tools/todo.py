@@ -126,7 +126,7 @@ def build_block() -> str:
         m = FILE_RE.match(p.name)
         items.append({
             "path": p, "title": title_of(p), "code": f"TB-{m.group(1)}-{m.group(2)}",
-            "link": "/" + p.relative_to(ROOT).as_posix(),  # 汇总链接用仓库根相对路径（编辑规范第 17 条）
+            "link": "./" + p.relative_to(INDEX.parent).as_posix(),  # 汇总看板链接相对 index.md 所在目录（编辑规范第 17 条）
             "status": f.get("status", ""), "priority": f.get("优先级", ""),
             "created": f.get("创建日期", ""), "finished": f.get("完成日期", ""),
             "deadline": f.get("期限", ""),

@@ -5,7 +5,7 @@
 ## 📍 阶段定位
 
 - 📥 **上游输入**：原始诉求（业务方、用户反馈、自己观察、线上问题、复盘改进项）。
-- 📤 **下游输出**：冻结的需求条目（含验收标准），作为 [02 设计架构](/project-development/02-design/index.md) 的输入。
+- 📤 **下游输出**：冻结的需求条目（含验收标准），作为 [02 设计架构](../02-design/index.md) 的输入。
 
 ## 🗂️ 一、需求分类
 
@@ -32,7 +32,7 @@
 
 写法要求：
 1. **用户故事三段式**：角色 → 能力 → 价值。写不出"价值"，说明还没想清楚为什么做。
-2. **验收标准用 Given/When/Then**：这组标准会直接转化为 [04 测试范围矩阵](/project-development/04-testing/index.md#test-matrix) 里的测试用例——这是闭环的第一处咬合。
+2. **验收标准用 Given/When/Then**：这组标准会直接转化为 [04 测试范围矩阵](../04-testing/index.md#test-matrix) 里的测试用例——这是闭环的第一处咬合。
 3. **INVEST 自检**：
    - Independent（尽量独立，不与其他故事耦合）
    - Negotiable（可协商的，不是死合同）
@@ -68,7 +68,7 @@ RICE 分数 = (Reach 触达人数 × Impact 影响程度 × Confidence 信心) /
 
 ## 🗃️ 四、需求池管理
 
-- **唯一需求池**：所有需求集中一处（本仓 [backlog.md](/project-development/01-requirements/backlog.md) 由 `python tools/req.py` 管理，开发项目放 `<项目仓库>/docs/01-需求/`），禁止散落在聊天记录和脑子里。
+- **唯一需求池**：所有需求集中一处（本仓 [backlog.md](./backlog.md) 由 `python tools/req.py` 管理，开发项目放 `<项目仓库>/docs/01-需求/`），禁止散落在聊天记录和脑子里。
 - **状态机**：`待评审 → 已排期 → 开发中 → 已提测 → 已发布 → 已关闭 / 已拒绝（留档）`。
 - **需求评审要点**（排期前过一遍）：
   - [ ] 解决什么问题？不做的代价是什么？
@@ -110,4 +110,4 @@ RICE 分数 = (Reach 触达人数 × Impact 影响程度 × Confidence 信心) /
 - [ ] 验收标准用 Given/When/Then 写出，可直接转测试用例
 - [ ] 已通过 INVEST 自检，粒度 ≤2 人天
 - [ ] 依赖与风险已识别，有对策
-- [ ] 需求已冻结并同步相关方 → 进入 [02 设计架构](/project-development/02-design/index.md)
+- [ ] 需求已冻结并同步相关方 → 进入 [02 设计架构](../02-design/index.md)

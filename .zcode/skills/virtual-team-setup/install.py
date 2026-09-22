@@ -10,7 +10,7 @@
     python .zcode/skills/virtual-team-setup/install.py --dry-run  # 只预览不写
 
 做什么：
-1. ~/.zcode/agents/   复制 templates/ 下四个角色装载器（引用 `~/knowledge-base/...` 约定路径）
+1. ~/.zcode/agents/   复制 templates/ 下六个角色装载器（引用 `~/knowledge-base/...` 约定路径）
 2. ~/.zcode/AGENTS.md 幂等插入/替换「虚拟团队子智能体」与「编辑文件规范」章节
    （各自标记内替换），并把「知识库位置」一行统一改写为约定位置指引
 3. ~/knowledge-base       家目录链接：缺失则自动创建，指向本仓库；存在但指错则警告
@@ -43,8 +43,8 @@ STD_END = "<!-- kb-standards:end -->"
 STD_HEADING = "## 编辑文件规范（所有工作区生效）"
 KB_HINT = "知识库位置 = `~/knowledge-base`（家目录约定位置，Windows/Mac 通用；迁移后放回即零配置）"
 SECTION_HINT = "知识库约定位置 = `~/knowledge-base`"  # 章节模板必含表述；自检以它为准（KB_HINT 仅为历史行改写目标）
-ROLE_DOCS = ["product-manager.md", "architect.md", "developer.md", "tester.md"]
-AGENT_NAMES = ["product-manager", "architect", "developer", "tester"]
+ROLE_DOCS = ["market-researcher.md", "product-manager.md", "architect.md", "ui-designer.md", "developer.md", "tester.md"]
+AGENT_NAMES = ["market-researcher", "product-manager", "architect", "ui-designer", "developer", "tester"]
 
 
 def die(msg: str) -> None:
@@ -243,7 +243,7 @@ def main() -> int:
         for f in fails:
             print(f"FAIL: {f}")
         return 1
-    print("自检全过。重启 ZCode 会话生效；「设置 → 子智能体」应显示四个角色。")
+    print("自检全过。重启 ZCode 会话生效；「设置 → 子智能体」应显示六个角色。")
     return 0
 
 

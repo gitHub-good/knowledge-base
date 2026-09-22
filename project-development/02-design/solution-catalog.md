@@ -1,6 +1,6 @@
 # 🧩 通用设计方案库
 
-> 设计架构阶段的「方案货架」：常见场景 → 业界验证过的通用方案。**选型顺序：先从本库挑成熟方案裁剪，本库没有再自研**；选定后在 [ADR 模板](/project-development/02-design/adr-template.md) 里记一条（引用方案编号 + 裁剪理由）。
+> 设计架构阶段的「方案货架」：常见场景 → 业界验证过的通用方案。**选型顺序：先从本库挑成熟方案裁剪，本库没有再自研**；选定后在 [ADR 模板](./adr-template.md) 里记一条（引用方案编号 + 裁剪理由）。
 
 ## 📍 定位与用法（三步）
 
@@ -327,4 +327,4 @@ Worker 领取 → 分批流式处理（记录进度 %）→ 产物写对象存�
 - [ ] 所有跨进程调用配齐[弹性四件套](#resilience)
 - [ ] 资金/订单写操作都有[幂等](#idempotency)，第三方交互都有[对账](#reconciliation)
 - [ ] 选定方案已补充接口契约与数据模型（index.md 四、五节）
-- [ ] 走 [设计评审检查清单](/project-development/02-design/index.md#design-review) → 进入 [03 编码规范](/project-development/03-coding-standards/index.md)
+- [ ] 走 [设计评审检查清单](./index.md#design-review) → 进入 [03 编码规范](../03-coding-standards/index.md)

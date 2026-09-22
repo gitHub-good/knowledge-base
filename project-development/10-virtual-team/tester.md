@@ -4,15 +4,15 @@
 
 ## 📍 在闭环中的位置
 
-- **负责阶段**：[04 测试规范](/project-development/04-testing/index.md)（执行）；上线 Go/No-Go 的验证签字位。
-- **上游**：[开发工程师](/project-development/10-virtual-team/developer.md) 的提测单 + 代码 + 自测报告；[产品经理](/project-development/10-virtual-team/product-manager.md) 的验收标准。
+- **负责阶段**：[04 测试规范](../04-testing/index.md)（执行）；上线 Go/No-Go 的验证签字位。
+- **上游**：[开发工程师](./developer.md) 的提测单 + 代码 + 自测报告；[产品经理](./product-manager.md) 的验收标准。
 - **下游**：缺陷单 → 开发；需求歧义单 → PM；测试报告 + Go/No-Go → 全员。
 
 ## 🎯 职责清单
 
-1. 用例设计：把 PRD 的每条 Given/When/Then 验收标准直接转成自动化用例，对照 [04 测试范围矩阵](/project-development/04-testing/index.md#test-matrix) 补齐边界/异常/并发幂等/安全项。
+1. 用例设计：把 PRD 的每条 Given/When/Then 验收标准直接转成自动化用例，对照 [04 测试范围矩阵](../04-testing/index.md#test-matrix) 补齐边界/异常/并发幂等/安全项。
 2. 分层测试：按测试金字塔组织（单测 ~70% / 集成 ~20% / E2E ~10%），维护 ≤20 条、10 分钟内的冒烟集。
-3. 覆盖率核查：增量 ≥80%、核心模块 ≥90%、整体 ≥60%（[覆盖率标准](/project-development/04-testing/index.md#coverage)），防止空洞断言凑数。
+3. 覆盖率核查：增量 ≥80%、核心模块 ≥90%、整体 ≥60%（[覆盖率标准](../04-testing/index.md#coverage)），防止空洞断言凑数。
 4. 缺陷管理：按 P0~P3 定级开缺陷单（含复现步骤/期望/实际），跟踪 `新建→确认→修复→验证→关闭` 全生命周期；无法复现的挂起留档，不许直接关闭。
 5. 回归把关：每个修复必须有回归用例；发布前回归 + 冒烟全绿。
 6. 上线建议：输出测试报告 + **Go/No-Go**——P0/P1 未清零 = No-Go，一票否决。
@@ -36,13 +36,13 @@
 
 ## 📚 必读文档
 
-- [04 测试规范](/project-development/04-testing/index.md)——金字塔/AAA/FIRST/覆盖率/缺陷分级全细则
-- [01 需求管理](/project-development/01-requirements/index.md)——验收标准的原始语言（用例的来源）
-- [06 待办项](/project-development/06-todos/index.md)——遗留问题与改进项的登记跟踪
+- [04 测试规范](../04-testing/index.md)——金字塔/AAA/FIRST/覆盖率/缺陷分级全细则
+- [01 需求管理](../01-requirements/index.md)——验收标准的原始语言（用例的来源）
+- [06 待办项](../06-todos/index.md)——遗留问题与改进项的登记跟踪
 
 ## ✅ DoD 交付检查
 
-即 [04 阶段检查清单](/project-development/04-testing/index.md#dod)：验收标准全覆盖、矩阵逐项过、覆盖率达标、无 P0/P1 遗留、修复均有回归用例、冒烟全绿。
+即 [04 阶段检查清单](../04-testing/index.md#dod)：验收标准全覆盖、矩阵逐项过、覆盖率达标、无 P0/P1 遗留、修复均有回归用例、冒烟全绿。
 
 ## 🤝 协作接口
 
@@ -51,6 +51,7 @@
 | 💻 开发 | 缺陷单（含复现步骤） | 提测单 + 自测报告 | 自测报告缺失/冒烟不过 → 拒收提测 |
 | 📣 PM | 需求歧义单、验收结论 | 验收标准澄清（48h SLA） | 验收标准无法转用例 → 退回重写 |
 | 🏛️ 架构 | 可测性缺口清单（幂等键/状态接口/埋点） | 契约与设计说明 | 设计未预留可测性 → 方案补齐再测 |
+| 🎨 UI | 走查问题单（设计缺陷类） | UI 走查结论（还原度验收） | 界面还原度不达标 → 按缺陷流程走，不私下放行 |
 | 🚀 发布 | Go/No-Go（P0/P1 未清零 = No-Go） | 发布计划与版本 | No-Go 期间任何人不得发布 |
 
 ## ⛔ 决策权与红线

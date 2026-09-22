@@ -4,8 +4,8 @@
 
 ## 📍 阶段定位
 
-- 📥 **上游输入**：[03 编码规范](/project-development/03-coding-standards/index.md) 产出并通过 lint 的分支 + 01 阶段的验收标准。
-- 📤 **下游输出**：全部用例通过、覆盖率达标的测试报告，作为 [05 代码评审](/project-development/05-code-review/index.md) 的提测材料。
+- 📥 **上游输入**：[03 编码规范](../03-coding-standards/index.md) 产出并通过 lint 的分支 + 01 阶段的验收标准。
+- 📤 **下游输出**：全部用例通过、覆盖率达标的测试报告，作为 [05 代码评审](../05-code-review/index.md) 的提测材料。
 
 ## 🔺 一、测试金字塔（业界最流行的分层策略）
 
@@ -49,7 +49,7 @@ def test_partial_refund_over_amount_should_reject():
 - **命名即文档**：`test_<方法>_<场景>_<期望>`，如 `test_refund_over_limit_should_throw`。
 - **一次只测一个行为**；一个断言关注点（一条用例可多断言，但都围绕同一行为）。
 - **mock 边界**：只 mock 外部依赖（网络/DB/时钟），不 mock 被测类内部方法——mock 过度会让测试只会"重播实现"。
-- 测试代码也是代码：遵守 [03 编码规范](/project-development/03-coding-standards/index.md)，可读、无重复（公共构造抽 fixture/factory）。
+- 测试代码也是代码：遵守 [03 编码规范](../03-coding-standards/index.md)，可读、无重复（公共构造抽 fixture/factory）。
 
 <a id="coverage"></a>
 
@@ -104,4 +104,4 @@ def test_partial_refund_over_amount_should_reject():
 - [ ] 新增代码覆盖率 ≥80%，核心模块 ≥90%
 - [ ] 本迭代所有缺陷已定级并按 SLA 处理，无 P0/P1 遗留
 - [ ] 每个修复的缺陷都有回归用例
-- [ ] 冒烟测试集全绿 → 进入 [05 代码评审](/project-development/05-code-review/index.md)
+- [ ] 冒烟测试集全绿 → 进入 [05 代码评审](../05-code-review/index.md)

@@ -1,6 +1,6 @@
 # 📐 技术方案模板
 
-> 与 [02 设计架构评审清单](/project-development/02-design/index.md#design-review) 一一对应。适用：一个需求的技术实现方案 / 一次重构方案 / 一个小系统设计。写方案的目标：**让没参会的人也能照此实现和评审**。
+> 与 [02 设计架构评审清单](../../project-development/02-design/index.md#design-review) 一一对应。适用：一个需求的技术实现方案 / 一次重构方案 / 一个小系统设计。写方案的目标：**让没参会的人也能照此实现和评审**。
 
 ```markdown
 # 技术方案：<方案名称>
@@ -65,5 +65,5 @@
 - [ ] 接口契约完整，破坏性变更已标注
 - [ ] 数据变更附带回滚脚本
 - [ ] 非功能项逐条过（性能/安全/监控/降级）
-- [ ] 关键决策同步登记 ADR（模板见 [adr-template](/project-development/02-design/adr-template.md)）
+- [ ] 关键决策同步登记 ADR（模板见 [adr-template](../../project-development/02-design/adr-template.md)）
 - [ ] 风险都有对策和负责人

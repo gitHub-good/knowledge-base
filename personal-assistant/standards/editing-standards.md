@@ -1,13 +1,13 @@
 # ✏️ 编辑文件规范
 
-> 所有会话（AI 或人工）创建、编辑任何文件的统一规范。本文件是唯一权威来源；由 `~/.zcode/AGENTS.md`（全局）与本仓根目录 `AGENTS.md`（仓库级）自动注入每个会话生效。
+> 所有会话（AI 或人工）创建、编辑任何文件的统一规范。本文件是唯一权威来源；由 `~/.zcode/AGENTS.md`（全局）与本仓根目录 [AGENTS.md](../../AGENTS.md)（仓库级）自动注入每个会话生效。
 
 ## 📍 生效机制（为什么它会跨会话自动执行）
 
 | 层级 | 文件 | 作用范围 | 职责 |
 | --- | --- | --- | --- |
 | 用户级 | `~/.zcode/AGENTS.md` | 所有工作区、所有会话 | 指向本规范 + 速记核心规则 |
-| 仓库级 | 本仓根 `AGENTS.md` | 打开本仓库的会话 | 同上（版本化，随仓库共享） |
+| 仓库级 | 本仓根 [AGENTS.md](../../AGENTS.md) | 打开本仓库的会话 | 同上（版本化，随仓库共享） |
 
 两级指令文件**只指向、不复制**规则——规则的增改只发生在本文件，避免多处漂移。修改本规范后无需同步改它们。
 
@@ -36,7 +36,7 @@
 
 ### 命名与结构
 
-11. 目录命名 `编号-名称`（如 `04-testing`）保持排序；**目录与文档统一英文命名**（小写字母 + 连字符，如 `git-conventions.md`、`01-requirements`）；文档正文（标题、内容、链接文字）保持中文。
+11. 目录命名 `编号-名称`（如 `04-testing`）保持排序；**目录与文档统一英文命名**（小写字母 + 连字符，如 [git-conventions.md](../../project-development/03-coding-standards/git-conventions.md)、`01-requirements`）；文档正文（标题、内容、链接文字）保持中文。
 12. **每个会被引用的目录都配 `index.md` 索引页**：一句定位 + 文件表（何时用 / 核心原则）。
 13. 新文档骨架：`# 图标 标题` → `> 一句话定位` → 分节正文 → `✅ 检查清单`（如适用）。
 
@@ -48,7 +48,7 @@
 
 ### 链接与锚点（本库核心约定）
 
-17. 一律相对路径，**禁止绝对路径（盘符）**：文档间引用统一用**仓库根相对路径**（`/目录/文件.md`），不用 `./xxx` 或 `../xxx`——同一目标写法一致、文件移动不需改链接、GitHub/VS Code 均正确解析为仓库根。指令、脚本、智能体提示词中提及仓库内文件时，同样用仓库根相对（如 `tools/check_links.py`、`project-development/10-virtual-team/index.md`）。仓库外系统文件用 `~/` 记法（如 `~/.zcode/AGENTS.md`）。链接文字 = 目标章节名，禁止"点击这里"。
+17. 一律相对路径，**禁止绝对路径（盘符）**：文档间引用统一用**相对当前文件的 Markdown 链接**（如 `../01-requirements/index.md`、`./git-commands.md`）——GitHub、VS Code、本地预览等任何渲染器点击都能直达，且不受「仓库是否作为工作区根打开」影响；旧「仓库根相对」写法（`/目录/文件.md`）在仓库作为子目录打开时会解析失败，全库已废弃。指令、脚本、智能体提示词中提及仓库内文件（供程序读取而非点击）时，用仓库根相对文本路径（如 `tools/check_links.py`、[project-development/10-virtual-team/index.md](../../project-development/10-virtual-team/index.md)）。仓库外系统文件用 `~/` 记法（如 `~/.zcode/AGENTS.md`）。链接文字 = 目标章节名，禁止"点击这里"。**正文提及仓库内实际文件一律写成可点击的 Markdown 链接**（运行命令、命名占位符、代码块内除外），保证每个引用都可直达目标文件。
 18. 语境指向具体章节的引用追加锚点直达——目标章节上方加显式锚点（与标题间空一行）：
 
     ```
@@ -57,7 +57,7 @@
     ## 🚦 章节标题
     ```
 
-    引用处写 `/目录/文件.md#id`；id 用小写英文加连字符（如 `release-checklist`），同文件内唯一。
+    引用处写相对链接追加锚点（如 `../../01-requirements/index.md#release-checklist`）；id 用小写英文加连字符（如 `release-checklist`），同文件内唯一。
 19. 阶段交接、板块导航类引用 → 指向文档首页即可；**禁止链接到没有 index.md 的目录**。
 20. 新增/改动链接后必须执行 `python tools/check_links.py`，**真实问题数为 0** 才算完成（已知误报会自动标注）。
 
@@ -69,6 +69,6 @@
 
 - [ ] 通用规则 1~10 逐条过
 - [ ] 本库文件：命名 / 骨架 / 图标符合 11~16
-- [ ] 链接锚点符合 17~20（根相对 `/路径`、锚点直达），`python tools/check_links.py` 全绿
+- [ ] 链接锚点符合 17~20（相对链接可点击、锚点直达、正文文件引用可点击），`python tools/check_links.py` 全绿
 - [ ] 三处同步完成（索引 index.md / 板块导航 / 目录树）
-- [ ] 提交信息符合 [Conventional Commits](/project-development/03-coding-standards/git-conventions.md#commit-spec)
+- [ ] 提交信息符合 [Conventional Commits](../../project-development/03-coding-standards/git-conventions.md#commit-spec)

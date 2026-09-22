@@ -96,5 +96,5 @@ docker compose up -d --build    # 改完代码重建重启
 ## 📌 七、约定（与项目开发板块的衔接）
 
 - 镜像标签 = 应用版本号（SemVer：主.次.修订）；**禁止裸 `latest` 上生产**——回滚需要明确的版本。
-- `Dockerfile` 与 `.dockerignore` 入库走 PR 评审（[05 代码评审](/project-development/05-code-review/index.md)）。
-- 敏感配置全部走环境变量/`.env`（`.env` 已在 [.gitignore](/.gitignore) 中，永不入库）。
+- `Dockerfile` 与 `.dockerignore` 入库走 PR 评审（[05 代码评审](../../project-development/05-code-review/index.md)）。
+- 敏感配置全部走环境变量/`.env`（`.env` 已在 [.gitignore](../../.gitignore) 中，永不入库）。
