@@ -14,6 +14,12 @@
                                                     #   待办关闭并回写 REQ 编号（调用 tools/req.py）
     python tools/todo.py sync                       # 重新生成 06-todos/index.md 汇总区块
 
+待办分流（--root，置于子命令之前）：
+    python tools/todo.py --root <项目仓库> new "M1-标题" ...
+                                                    # 项目待办登记到 <项目仓库>/docs/todos/（结构与本库
+                                                    #   一致；index.md 首次自动引导生成）；非项目待办
+                                                    #   不带 --root，仍落本库 06-todos/
+
 文件：project-development/06-todos/todo/<状态目录>/TB-YYYYMMDD-NN-标题.md（状态目录 pending/doing/done/cancelled
 对应 待办/进行中/已完成/已取消，状态流转时自动移目录）；汇总区块在 06-todos/index.md 的
 <!-- todos:begin/end --> 标记之间。退出码：有问题 = 1，全过 = 0。
@@ -30,14 +36,37 @@ try:
 except Exception:
     pass
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent  # 脚本所在仓库（tools/req.py 由此定位，--root 不改变它）
 TODO_DIR = ROOT / "project-development" / "06-todos" / "todo"  # 待办单文件目录；汇总所在的 index.md 在其上一级
 INDEX = TODO_DIR.parent / "index.md"
+MANAGED_ROOT: Path | None = None  # --root 项目仓库（项目待办分流）；None = 管理知识库自身待办
 BEGIN, END = "<!-- todos:begin -->", "<!-- todos:end -->"
 STATUSES = ("待办", "进行中", "已完成", "已取消")
 STATUS_DIRS = {"待办": "pending", "进行中": "doing", "已完成": "done", "已取消": "cancelled"}
 PRIORITIES = ("高", "中", "低")
 FILE_RE = re.compile(r"^TB-(\d{8})-(\d{2})-(.+)\.md$")
+
+
+def use_project_root(root: Path) -> None:
+    """项目待办分流：待办池切到 <项目仓库>/docs/todos/（结构与知识库 06 待办一致）。"""
+    global TODO_DIR, INDEX, MANAGED_ROOT
+    MANAGED_ROOT = root
+    TODO_DIR = root / "docs" / "todos" / "todo"
+    INDEX = TODO_DIR.parent / "index.md"
+
+
+def ensure_index() -> None:
+    """项目模式首次使用时引导生成 docs/todos/index.md 骨架（知识库模式文件常在，不触发）。"""
+    if INDEX.is_file():
+        return
+    INDEX.parent.mkdir(parents=True, exist_ok=True)
+    INDEX.write_text(
+        "# 📌 项目待办\n\n"
+        "> 本项目仓库的待办池：单文件单待办、状态自动流转；"
+        "由 `python ~/knowledge-base/tools/todo.py --root .` 管理"
+        "（分流规则见知识库 project-development/06-todos/index.md：项目待办进项目仓库，非项目待办进知识库）。\n\n"
+        "## 📊 汇总看板\n\n" + BEGIN + "\n" + END + "\n",
+        encoding="utf-8", newline="\n")
 
 
 def die(msg: str) -> None:
@@ -155,6 +184,7 @@ def build_block() -> str:
 
 
 def sync() -> None:
+    ensure_index()
     block = build_block()
     text = INDEX.read_text(encoding="utf-8")
     if BEGIN not in text or END not in text:
@@ -238,8 +268,10 @@ def cmd_convert(args) -> None:
     if d["fields"].get("status") in ("已完成", "已取消"):
         die(f"{path.name} 已是终态（{d['fields'].get('status')}），不能转需求")
     r = subprocess.run(
-        [sys.executable, str(ROOT / "tools" / "req.py"), "new", title_of(path),
-         "--from", args.code, "-p", args.priority, "--print-code"]
+        [sys.executable, str(ROOT / "tools" / "req.py")]
+        + (["--root", str(MANAGED_ROOT)] if MANAGED_ROOT else [])  # 项目待办 → 需求也建在项目 docs/01-需求/
+        + ["new", title_of(path),
+           "--from", args.code, "-p", args.priority, "--print-code"]
         + (["-d", re.search(r"^> (.+)$", d["body"], re.M).group(1).strip()]
            if re.search(r"^> (.+)$", d["body"], re.M) else [])
         + [i for item in re.findall(r"^- \[[ x]\] (.+)$", d["body"], re.M) for i in ("--gwt", item)],
@@ -288,16 +320,20 @@ def validate() -> int:
             problems.append(f"{p.name}: 一句话说明未填写（new -d 或手工补）")
         if re.search(r"^- \[ \] 达到什么程度算完成$", d["body"], re.M):
             problems.append(f"{p.name}: 完成标准未填写（new --dod 或手工补）")
-    stray = [p.name for p in TODO_DIR.parent.iterdir() if p.is_file() and FILE_RE.match(p.name)]
+    stray = ([p.name for p in TODO_DIR.parent.iterdir() if p.is_file() and FILE_RE.match(p.name)]
+             if TODO_DIR.parent.is_dir() else [])
     if stray:
         problems.append(f"06-todos 根目录有待办未移入 todo/ 子目录：{'、'.join(stray)}")
     loose = [p.name for p in TODO_DIR.iterdir() if p.is_file() and FILE_RE.match(p.name)] if TODO_DIR.is_dir() else []
     if loose:
         problems.append(f"todo/ 根目录有待办未按状态分目录：{'、'.join(loose)}")
-    if BEGIN not in INDEX.read_text(encoding="utf-8"):
+    if not INDEX.is_file():
+        problems.append(f"缺 {INDEX}（项目模式首次请先 new/sync 引导生成）")
+    elif BEGIN not in INDEX.read_text(encoding="utf-8"):
         problems.append("index.md 缺汇总区块标记")
     elif build_block().rstrip("\n") not in INDEX.read_text(encoding="utf-8"):
-        problems.append("汇总区块与文件状态不同步，请执行 python tools/todo.py sync")
+        problems.append(f"汇总区块与文件状态不同步，请执行 python tools/todo.py sync"
+                        + (f" --root {MANAGED_ROOT}" if MANAGED_ROOT else ""))
     counts = {s: 0 for s in STATUSES}
     for p in todos():
         counts[load(p)["fields"].get("status", "?")] = counts.get(load(p)["fields"].get("status", "?"), 0) + 1
@@ -310,6 +346,9 @@ def validate() -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="待办项管理：单文件单待办，状态自动流转")
+    ap.add_argument("--root", metavar="项目仓库", default=None,
+                    help="项目待办分流（置于子命令前）：待办池切到 <项目仓库>/docs/todos/，"
+                         "首次使用自动引导生成汇总页；缺省管理知识库自身待办")
     sub = ap.add_subparsers(dest="cmd")
     p_new = sub.add_parser("new", help="新建待办")
     p_new.add_argument("title", help="待办标题")
@@ -331,6 +370,11 @@ def main() -> int:
     p_conv.add_argument("-p", "--priority", default="应该", help="需求优先级（MoSCoW）：必须/应该/可以/暂不")
     sub.add_parser("sync", help="重新生成汇总区块")
     args = ap.parse_args()
+    if args.root:
+        root = Path(args.root).expanduser()
+        if not root.is_dir():
+            die(f"--root 目录不存在：{root}（应传项目仓库路径）")
+        use_project_root(root.resolve())
     if args.cmd == "new":
         cmd_new(args)
         return 0
@@ -348,7 +392,7 @@ def main() -> int:
         return 0
     if args.cmd == "sync":
         sync()
-        print("[已刷新] 06-todos/index.md 汇总区块")
+        print(f"[已刷新] {INDEX} 汇总区块")
         return 0
     return validate()
 

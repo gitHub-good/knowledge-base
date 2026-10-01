@@ -119,6 +119,52 @@ class TestTodoFlow(unittest.TestCase):
         self.assertEqual(run(self.fake, "tools/req.py").returncode, 0)
 
 
+class TestProjectRootFlow(unittest.TestCase):
+    """待办分流：--root <项目仓库> 时待办/需求落项目仓库 docs/ 下，汇总页自动引导生成。"""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        base = Path(self._tmp.name)
+        self.fake = make_fake_repo(base)   # 充当知识库（提供 tools/todo.py 与 req.py）
+        self.proj = base / "proj"          # 模拟项目仓库：空目录，结构全靠 --root 引导生成
+        self.proj.mkdir()
+        self.todo = ["tools/todo.py", "--root", str(self.proj)]
+        # 知识库侧空汇总页先 sync 成一致状态，末尾的「不受影响」校验才可比
+        run(self.fake, "tools/todo.py", "sync")
+        run(self.fake, "tools/req.py", "sync")
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def code(self) -> str:
+        import re
+        out = run(self.fake, *self.todo, "new", "M1-项目待办验证-(x)", "-d", "项目内问题跟踪",
+                  "--dod", "待办落在项目仓库 docs/todos/todo/pending/")
+        self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
+        m = re.search(r"TB-\d{8}-\d{2}", out.stdout)
+        self.assertTrue(m, out.stdout)
+        return m.group(0)
+
+    def test_项目待办分流到项目仓库(self):
+        self.code()
+        self.assertTrue((self.proj / "docs" / "todos" / "index.md").is_file())  # 汇总页自动引导
+        pends = list((self.proj / "docs" / "todos" / "todo" / "pending").glob("TB-*.md"))
+        self.assertEqual(len(pends), 1)
+        self.assertEqual(run(self.fake, *self.todo).returncode, 0)  # 项目池校验全绿
+        self.assertEqual(run(self.fake, "tools/todo.py").returncode, 0)  # 知识库自身待办池不受影响
+
+    def test_项目待办convert建项目需求(self):
+        code = self.code()
+        out = run(self.fake, *self.todo, "convert", code, "-p", "应该")
+        self.assertEqual(out.returncode, 0, out.stdout + out.stderr)
+        req_dir = self.proj / "docs" / "01-需求"
+        self.assertTrue((req_dir / "backlog.md").is_file())  # 项目需求池自动引导
+        reqs = list(req_dir.glob("REQ-*.md"))
+        self.assertEqual(len(reqs), 1)
+        self.assertIn(f"来源: {code}", reqs[0].read_text(encoding="utf-8"))
+        self.assertEqual(run(self.fake, "tools/req.py").returncode, 0)  # 知识库自身需求池不受影响
+
+
 class TestInstall(unittest.TestCase):
     def setUp(self):
         self._home = tempfile.TemporaryDirectory()
@@ -139,7 +185,8 @@ class TestInstall(unittest.TestCase):
         text = agents_md.read_text(encoding="utf-8")
         self.assertIn("## 虚拟团队子智能体", text)
         self.assertIn("## 编辑文件规范", text)
-        for role in ("product-manager", "architect", "developer", "tester"):
+        for role in ("market-researcher", "product-manager", "architect", "ui-designer",
+                     "developer", "tester"):
             self.assertTrue((home / ".zcode" / "agents" / f"{role}.md").is_file())
         self.assertTrue((home / "knowledge-base" / "AGENTS.md").is_file())
 

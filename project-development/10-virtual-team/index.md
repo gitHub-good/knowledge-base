@@ -58,7 +58,7 @@
 | ② | 架构 → 开发 | 技术方案 + ADR + 接口契约 + 任务拆解表 | [技术方案模板](../../personal-assistant/templates/technical-design.md) + [通用设计方案库](../02-design/solution-catalog.md) | [设计评审清单](../02-design/index.md#design-review) 全过 |
 | ③ | 开发 → 测试 | 提测单 + 代码分支 + 自测报告 | [Git 提交与分支规范](../03-coding-standards/git-conventions.md#commit-spec) | [03 DoD](../03-coding-standards/index.md#dod)：lint 0 error、增量覆盖 ≥80%、主路径/边界/异常自测通过 |
 | ④ | 测试 → 全员 | 测试报告 + 缺陷单 + 上线建议 | [04 测试规范](../04-testing/index.md) | [04 DoD](../04-testing/index.md#dod)：用例全执行、无 P0/P1 遗留、修复均有回归用例 |
-| ⑤ | 全员 → PM | 问题/改进项（登记 [06 待办项](../06-todos/index.md)，转需求池） | [06 待办项](../06-todos/index.md) | 编号/状态/完成标准/期限四要素齐全，完成时自动流转留档 |
+| ⑤ | 全员 → PM | 问题/改进项（**项目待办登记到项目仓库 `docs/todos/`，其余进 [06 待办项](../06-todos/index.md)**，再转需求池） | [06 待办项](../06-todos/index.md) | 编号/状态/完成标准/期限四要素齐全，完成时自动流转留档 |
 | ⑥ | PM → UI | 冻结 PRD（界面类需求含界面验收标准与文案口径） | [01 需求管理](../01-requirements/index.md)「五、轻量 PRD 模板」 | 同 ① 口径，另需：界面验收标准可测、三态诉求明确 |
 | ⑦ | UI → 开发 | UI 设计稿 + 设计规范（design tokens）+ 切图/图标资源 | [ui-designer.md](./ui-designer.md) | 界面验收标准全覆盖；组件/页面三态齐全；规范成体系；资源命名可工程化 |
 

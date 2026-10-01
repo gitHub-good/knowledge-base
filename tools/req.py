@@ -11,6 +11,11 @@
     python tools/req.py reject REQ-YYYYMMDD-NN [原因] # → 已拒绝（留档）
     python tools/req.py sync                         # 重新生成 backlog.md（需求池）汇总区块
 
+待办分流联动（--root，置于子命令之前）：
+    python tools/req.py --root <项目仓库> new "标题" ...
+                                                    # 项目需求登记到 <项目仓库>/docs/01-需求/（backlog.md
+                                                    #   首次自动引导生成）；知识库自身需求不带 --root
+
 文件：project-development/01-requirements/REQ-YYYYMMDD-NN-标题.md；汇总区块在 backlog.md（需求池）的
 <!-- reqpool:begin/end --> 标记之间。状态机为 01 方法论完整状态机的从简子集
 （本池条目多为文档工作，无提测/发布环节）。退出码：有问题 = 1，全过 = 0。
@@ -29,11 +34,34 @@ except Exception:
 ROOT = Path(__file__).resolve().parent.parent
 REQ_DIR = ROOT / "project-development" / "01-requirements"
 POOL = REQ_DIR / "backlog.md"
+MANAGED_ROOT: Path | None = None  # --root 项目仓库（项目需求池）；None = 知识库自身需求池
 BEGIN, END = "<!-- reqpool:begin -->", "<!-- reqpool:end -->"
 STATUSES = ("待评审", "开发中", "已关闭", "已拒绝")
 TYPES = ("功能", "优化", "缺陷", "技术")
 PRIORITIES = ("必须", "应该", "可以", "暂不")
 FILE_RE = re.compile(r"^REQ-(\d{8})-(\d{2})-(.+)\.md$")
+
+
+def use_project_root(root: Path) -> None:
+    """项目待办分流联动：需求池切到 <项目仓库>/docs/01-需求/（与虚拟团队交付物目录约定一致）。"""
+    global REQ_DIR, POOL, MANAGED_ROOT
+    MANAGED_ROOT = root
+    REQ_DIR = root / "docs" / "01-需求"
+    POOL = REQ_DIR / "backlog.md"
+
+
+def ensure_pool() -> None:
+    """项目模式首次使用时引导生成 docs/01-需求/backlog.md 骨架（知识库模式文件常在，不触发）。"""
+    if POOL.is_file():
+        return
+    POOL.parent.mkdir(parents=True, exist_ok=True)
+    POOL.write_text(
+        "# 🗃️ 项目需求池\n\n"
+        "> 本项目仓库的需求池：单文件单需求、状态自动流转；"
+        "由 `python ~/knowledge-base/tools/req.py --root .` 管理"
+        "（需求模板见知识库 project-development/01-requirements/index.md）。\n\n"
+        "## 📊 汇总看板\n\n" + BEGIN + "\n" + END + "\n",
+        encoding="utf-8", newline="\n")
 
 
 def die(msg: str) -> None:
@@ -135,6 +163,7 @@ def build_block() -> str:
 
 
 def sync() -> None:
+    ensure_pool()
     block = build_block()
     text = POOL.read_text(encoding="utf-8")
     if BEGIN not in text or END not in text:
@@ -244,6 +273,9 @@ def validate() -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="需求池管理：单文件单需求，状态自动流转")
+    ap.add_argument("--root", metavar="项目仓库", default=None,
+                    help="项目待办分流联动（置于子命令前）：需求池切到 <项目仓库>/docs/01-需求/，"
+                         "首次使用自动引导生成 backlog.md；缺省管理知识库自身需求池")
     sub = ap.add_subparsers(dest="cmd")
     p_new = sub.add_parser("new", help="新建需求")
     p_new.add_argument("title", help="需求标题")
@@ -263,6 +295,11 @@ def main() -> int:
     p_rej.add_argument("reason", nargs="*", help="拒绝原因")
     sub.add_parser("sync", help="重新生成汇总区块")
     args = ap.parse_args()
+    if args.root:
+        root = Path(args.root).expanduser()
+        if not root.is_dir():
+            die(f"--root 目录不存在：{root}（应传项目仓库路径）")
+        use_project_root(root.resolve())
     if args.cmd == "new":
         cmd_new(args)
         return 0
@@ -278,7 +315,7 @@ def main() -> int:
         return 0
     if args.cmd == "sync":
         sync()
-        print("[已刷新] 01-requirements/backlog.md 汇总区块")
+        print(f"[已刷新] {POOL} 汇总区块")
         return 0
     return validate()
 

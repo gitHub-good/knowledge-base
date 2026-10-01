@@ -45,7 +45,7 @@
 - 🗺️ **启动一个新项目** → 从 [00-闭环流程总览](./project-development/00-process-overview.md#stage-map) 开始，按阶段走完[准入/准出矩阵](./project-development/00-process-overview.md#gating-matrix)
 - ✍️ **写代码前** → [03-编码规范](./project-development/03-coding-standards/index.md) + [Git 提交与分支规范](./project-development/03-coding-standards/git-conventions.md)
 - 🧪 **提测 / 提 PR 前** → [04 测试的检查清单](./project-development/04-testing/index.md#dod) + [05 评审的检查清单](./project-development/05-code-review/index.md#dod)
-- 📌 **记/查待办** → [06-待办项](./project-development/06-todos/index.md)：单文件单待办，`python tools/todo.py` 新建/完成自动流转状态
+- 📌 **记/查待办** → [06-待办项](./project-development/06-todos/index.md)：单文件单待办，`python tools/todo.py` 新建/完成自动流转状态；**项目待办进项目仓库** `docs/todos/`（加 `--root <项目仓库>`）
 - 💻 **忘了命令怎么写** → [Git](./personal-assistant/commands/git-commands.md) / [Linux](./personal-assistant/commands/linux-commands.md) / [Windows](./personal-assistant/commands/windows-commands.md) / [Docker](./personal-assistant/commands/docker-commands.md) 命令速查
 - 📚 **技术选型 / 搭新项目** → [前后端技术栈](./project-development/03-coding-standards/index.md)：默认选型 + 工程基线（偏离默认记 ADR）
 - 📅 **填周报 / 写方案** → [周报](./personal-assistant/templates/weekly-report.md) / [会议纪要](./personal-assistant/templates/meeting-minutes.md) / [技术方案](./personal-assistant/templates/technical-design.md) 模板
